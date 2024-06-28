@@ -1,6 +1,7 @@
 import { Linking, NativeModules, Platform } from 'react-native';
 import type { ECommerceEvent } from './ecommerce';
 import type { AdRevenue, Revenue } from './revenue';
+import type { UserProfile } from './userProfile';
 
 const LINKING_ERROR =
   `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
@@ -51,6 +52,7 @@ export type AppMetricaConfig = {
   activationAsSessionStart?: boolean; // iOS only
   sessionsAutoTracking?: boolean; // iOS only
   appOpenTrackingEnabled?: boolean;
+  userProfileID?: string;
 };
 
 export type PreloadInfo = {
@@ -87,6 +89,7 @@ export const UUID_KEY = 'appmetrica_uuid';
 
 export * from './ecommerce';
 export * from './revenue';
+export * from './userProfile';
 
 export default class AppMetrica {
   static activate(config: AppMetricaConfig) {
@@ -165,5 +168,9 @@ export default class AppMetrica {
 
   static reportAdRevenue(adRevenue: AdRevenue) {
     AppMetricaNative.reportAdRevenue(adRevenue);
+  }
+
+  static reportUserProfile(userProfile: UserProfile) {
+    AppMetricaNative.reportUserProfile(userProfile)
   }
 }

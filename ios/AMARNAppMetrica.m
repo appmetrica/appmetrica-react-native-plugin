@@ -2,6 +2,7 @@
 #import "AMARNAppMetrica.h"
 #import "AMARNAppMetricaUtils.h"
 #import "AMARNStartupParamsUtils.h"
+#import "AMARNUserProfileSerializer.h"
 #import <AppMetricaCrashes/AppMetricaCrashes.h>
 
 @implementation AMARNAppMetrica
@@ -107,6 +108,11 @@ RCT_EXPORT_METHOD(reportRevenue:(NSDictionary *)revenueDict)
 RCT_EXPORT_METHOD(reportAdRevenue:(NSDictionary *)revenueDict)
 {
     [AMAAppMetrica reportAdRevenue:[AMARNAppMetricaUtils adRevenueForDict:revenueDict] onFailure:nil];
+}
+
+RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)userProfileDict)
+{
+    [AMAAppMetrica reportUserProfile:[AMARNAppMetricaUtils userProfileForDict:userProfileDict] onFailure:nil];
 }
 
 - (NSObject *)wrap:(NSObject *)value

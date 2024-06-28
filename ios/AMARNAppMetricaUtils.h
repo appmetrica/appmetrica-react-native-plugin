@@ -2,6 +2,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AppMetricaCore/AppMetricaCore.h>
 #import <AppMetricaCrashes/AppMetricaCrashes.h>
+#import "AMARNUserProfileSerializer.h"
 
 @interface AMARNAppMetricaUtils : NSObject
 
@@ -20,5 +21,6 @@
 + (AMAAdRevenueInfo *)adRevenueForDict:(NSDictionary *)revenueDict;
 + (AMAAdType)toAdType:(NSString *)type;
 + (NSDictionary *)convertRevenueInfoPayload:(NSString *)payload;
++ (AMAUserProfile *)userProfileForDict:(NSDictionary *)userProfileDict;
 
 @end

@@ -40,6 +40,9 @@
     if (configDict[@"maxReportsInDatabaseCount"] != nil) {
         configuration.maxReportsInDatabaseCount = [configDict[@"maxReportsInDatabaseCount"] unsignedIntegerValue];
     }
+    if (configDict[@"userProfileID"] != nil) {
+        configuration.userProfileID = configDict[@"userProfileID"];
+    }
 
     return configuration;
 }
@@ -363,6 +366,11 @@
         NSLog(@"Invalid revenue payload to report to AppMetrica %@", payload);
         return nil;
     }
+}
+
++ (AMAUserProfile *)userProfileForDict:(NSDictionary *)userProfileDict
+{
+    return amarn_deserializeUserProfile(userProfileDict);
 }
 
 @end

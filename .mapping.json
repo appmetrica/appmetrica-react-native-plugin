@@ -14,6 +14,7 @@
   "android/src/main/java/io/appmetrica/analytics/reactnative/AppMetricaModule.java":"mobile/metrika/react-native/appmetrica-plugin/android/src/main/java/io/appmetrica/analytics/reactnative/AppMetricaModule.java",
   "android/src/main/java/io/appmetrica/analytics/reactnative/AppMetricaPackage.java":"mobile/metrika/react-native/appmetrica-plugin/android/src/main/java/io/appmetrica/analytics/reactnative/AppMetricaPackage.java",
   "android/src/main/java/io/appmetrica/analytics/reactnative/ReactNativeStartupParamsListener.java":"mobile/metrika/react-native/appmetrica-plugin/android/src/main/java/io/appmetrica/analytics/reactnative/ReactNativeStartupParamsListener.java",
+  "android/src/main/java/io/appmetrica/analytics/reactnative/UserProfileSerializer.java":"mobile/metrika/react-native/appmetrica-plugin/android/src/main/java/io/appmetrica/analytics/reactnative/UserProfileSerializer.java",
   "android/src/main/java/io/appmetrica/analytics/reactnative/Utils.java":"mobile/metrika/react-native/appmetrica-plugin/android/src/main/java/io/appmetrica/analytics/reactnative/Utils.java",
   "appmetrica-react-native-analytics.podspec":"mobile/metrika/react-native/appmetrica-plugin/appmetrica-react-native-analytics.podspec",
   "babel.config.js":"mobile/metrika/react-native/appmetrica-plugin/babel.config.js",
@@ -23,11 +24,14 @@
   "ios/AMARNAppMetricaUtils.m":"mobile/metrika/react-native/appmetrica-plugin/ios/AMARNAppMetricaUtils.m",
   "ios/AMARNStartupParamsUtils.h":"mobile/metrika/react-native/appmetrica-plugin/ios/AMARNStartupParamsUtils.h",
   "ios/AMARNStartupParamsUtils.m":"mobile/metrika/react-native/appmetrica-plugin/ios/AMARNStartupParamsUtils.m",
+  "ios/AMARNUserProfileSerializer.h":"mobile/metrika/react-native/appmetrica-plugin/ios/AMARNUserProfileSerializer.h",
+  "ios/AMARNUserProfileSerializer.m":"mobile/metrika/react-native/appmetrica-plugin/ios/AMARNUserProfileSerializer.m",
   "package-lock.json":"mobile/metrika/react-native/appmetrica-plugin/package-lock.json",
   "package.json":"mobile/metrika/react-native/appmetrica-plugin/package.json",
   "src/ecommerce.ts":"mobile/metrika/react-native/appmetrica-plugin/src/ecommerce.ts",
   "src/index.ts":"mobile/metrika/react-native/appmetrica-plugin/src/index.ts",
   "src/revenue.ts":"mobile/metrika/react-native/appmetrica-plugin/src/revenue.ts",
+  "src/userProfile.ts":"mobile/metrika/react-native/appmetrica-plugin/src/userProfile.ts",
   "tsconfig.build.json":"mobile/metrika/react-native/appmetrica-plugin/tsconfig.build.json",
   "tsconfig.json":"mobile/metrika/react-native/appmetrica-plugin/tsconfig.json"
 }

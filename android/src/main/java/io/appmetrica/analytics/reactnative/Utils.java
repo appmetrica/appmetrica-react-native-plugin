@@ -13,6 +13,7 @@ import io.appmetrica.analytics.AppMetricaConfig;
 import io.appmetrica.analytics.PreloadInfo;
 import io.appmetrica.analytics.Revenue;
 import io.appmetrica.analytics.StartupParamsCallback;
+import io.appmetrica.analytics.profile.UserProfile;
 import io.appmetrica.analytics.ecommerce.ECommerceAmount;
 import io.appmetrica.analytics.ecommerce.ECommerceCartItem;
 import io.appmetrica.analytics.ecommerce.ECommerceEvent;
@@ -70,6 +71,9 @@ abstract class Utils {
         }
         if (configMap.hasKey("sessionsAutoTracking")) {
             builder.withSessionsAutoTrackingEnabled(configMap.getBoolean("sessionsAutoTracking"));
+        }
+        if (configMap.hasKey("userProfileID")) {
+            builder.withUserProfileID(configMap.getString("userProfileID"));
         }
 
         return builder.build();
@@ -452,6 +456,11 @@ abstract class Utils {
             default:
                 return AdType.OTHER;
         }
+    }
+
+    @NonNull
+    static UserProfile toUserProfile(ReadableMap userProfileMap) {
+        return UserProfileSerializer.fromReadableMap(userProfileMap);
     }
 
     @Nullable

@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.module.annotations.ReactModule;
+
 import io.appmetrica.analytics.AppMetrica;
 import io.appmetrica.analytics.AppMetricaConfig;
 import io.appmetrica.analytics.ecommerce.ECommerceEvent;
@@ -135,5 +136,14 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void reportAdRevenue(ReadableMap revenue) {
         AppMetrica.reportAdRevenue(Utils.toAdRevenue(revenue));
+    }
+
+    @ReactMethod
+    public void reportUserProfile(ReadableMap userProfile) {
+        try {
+            AppMetrica.reportUserProfile(Utils.toUserProfile(userProfile));
+        } catch (Throwable e) {
+            Log.w(TAG, "Cannot parse user profile", e);
+        }
     }
 }
