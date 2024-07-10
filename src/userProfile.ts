@@ -71,7 +71,7 @@ export class Attributes {
     return new GenderAttribute();
   }
 
-  static customName() {
+  static userName() {
     return new NameAttribute();
   }
 
