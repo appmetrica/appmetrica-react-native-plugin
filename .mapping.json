@@ -32,6 +32,7 @@
   "src/index.ts":"mobile/metrika/react-native/appmetrica-plugin/src/index.ts",
   "src/revenue.ts":"mobile/metrika/react-native/appmetrica-plugin/src/revenue.ts",
   "src/userProfile.ts":"mobile/metrika/react-native/appmetrica-plugin/src/userProfile.ts",
+  "src/utils.ts":"mobile/metrika/react-native/appmetrica-plugin/src/utils.ts",
   "tsconfig.build.json":"mobile/metrika/react-native/appmetrica-plugin/tsconfig.build.json",
   "tsconfig.json":"mobile/metrika/react-native/appmetrica-plugin/tsconfig.json"
 }

@@ -16,7 +16,7 @@ export type Receipt = {
 export type AdRevenue = {
   price: number | string;
   currency: string;
-  payload?: Map<string, string>;
+  payload?: Map<string, string> | Record<string, string>;
   adNetwork?: string;
   adPlacementID?: string;
   adPlacementName?: string;

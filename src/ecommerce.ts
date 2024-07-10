@@ -1,7 +1,15 @@
+import {
+  normalizeECommerceCartItem,
+  normalizeECommerceOrder,
+  normalizeECommerceProduct,
+  normalizeECommerceReferrer,
+  normalizeECommerceScreen,
+} from './utils';
+
 export type ECommerceScreen = {
   name: string;
   searchQuery?: string;
-  payload?: Map<string, string>;
+  payload?: Map<string, string> | Record<string, string>;
   categoriesPath?: Array<string>;
 };
 
@@ -22,7 +30,7 @@ export type ECommerceProduct = {
   originalPrice?: ECommercePrice;
   promocodes?: Array<string>;
   categoriesPath?: Array<string>;
-  payload?: Map<string, string>;
+  payload?: Map<string, string> | Record<string, string>;
 };
 
 export type ECommerceReferrer = {
@@ -41,7 +49,7 @@ export type ECommerceCartItem = {
 export type ECommerceOrder = {
   orderId: string;
   products: Array<ECommerceCartItem>;
-  payload?: Map<string, string>;
+  payload?: Map<string, string> | Record<string, string>;
 };
 
 export type ECommerceEventType =
@@ -66,7 +74,7 @@ export class ECommerce {
   static showScreenEvent(screen: ECommerceScreen): ECommerceEvent {
     return {
       ecommerceEvent: 'showSceenEvent',
-      ecommerceScreen: screen,
+      ecommerceScreen: normalizeECommerceScreen(screen),
     };
   }
 
@@ -76,8 +84,8 @@ export class ECommerce {
   ): ECommerceEvent {
     return {
       ecommerceEvent: 'showProductCardEvent',
-      ecommerceScreen: screen,
-      product: product,
+      ecommerceScreen: normalizeECommerceScreen(screen),
+      product: normalizeECommerceProduct(product),
     };
   }
 
@@ -87,36 +95,36 @@ export class ECommerce {
   ): ECommerceEvent {
     return {
       ecommerceEvent: 'showProductDetailsEvent',
-      product: product,
-      referrer: referrer,
+      product: normalizeECommerceProduct(product),
+      referrer: normalizeECommerceReferrer(referrer),
     };
   }
 
   static addCartItemEvent(item: ECommerceCartItem): ECommerceEvent {
     return {
       ecommerceEvent: 'addCartItemEvent',
-      cartItem: item,
+      cartItem: normalizeECommerceCartItem(item),
     };
   }
 
   static removeCartItemEvent(item: ECommerceCartItem): ECommerceEvent {
     return {
       ecommerceEvent: 'removeCartItemEvent',
-      cartItem: item,
+      cartItem: normalizeECommerceCartItem(item),
     };
   }
 
   static beginCheckoutEvent(order: ECommerceOrder): ECommerceEvent {
     return {
       ecommerceEvent: 'beginCheckoutEvent',
-      order: order,
+      order: normalizeECommerceOrder(order),
     };
   }
 
   static purchaseEvent(order: ECommerceOrder): ECommerceEvent {
     return {
       ecommerceEvent: 'purchaseEvent',
-      order: order,
+      order: normalizeECommerceOrder(order),
     };
   }
 }

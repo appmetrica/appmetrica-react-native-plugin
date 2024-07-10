@@ -2,6 +2,7 @@ import { Linking, NativeModules, Platform } from 'react-native';
 import type { ECommerceEvent } from './ecommerce';
 import type { AdRevenue, Revenue } from './revenue';
 import type { UserProfile } from './userProfile';
+import { normalizeAdRevenue } from './utils';
 
 const LINKING_ERROR =
   `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
@@ -119,7 +120,7 @@ export default class AppMetrica {
     AppMetricaNative.reportAppOpen(deeplink);
   }
 
-  static reportError(identifier: string, message: string, _reason: Object) {
+  static reportError(identifier: string, message: string, _reason?: Object) {
     AppMetricaNative.reportError(identifier, message);
   }
 
@@ -167,7 +168,7 @@ export default class AppMetrica {
   }
 
   static reportAdRevenue(adRevenue: AdRevenue) {
-    AppMetricaNative.reportAdRevenue(adRevenue);
+    AppMetricaNative.reportAdRevenue(normalizeAdRevenue(adRevenue));
   }
 
   static reportUserProfile(userProfile: UserProfile) {
