@@ -75,6 +75,15 @@ abstract class Utils {
         if (configMap.hasKey("userProfileID")) {
             builder.withUserProfileID(configMap.getString("userProfileID"));
         }
+        if (configMap.hasKey("errorEnvironment")) {
+            ReadableMap errorEnvironmentMap = configMap.getMap("errorEnvironment");
+            if (errorEnvironmentMap != null) {
+                for (Map.Entry<String, Object> entry : errorEnvironmentMap.toHashMap().entrySet()) {
+                    Object value = entry.getValue();
+                    builder.withErrorEnvironmentValue(entry.getKey(), value == null ? null : value.toString());
+                }
+            }
+        }
 
         return builder.build();
     }

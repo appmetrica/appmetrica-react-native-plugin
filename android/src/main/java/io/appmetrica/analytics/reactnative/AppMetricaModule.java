@@ -146,4 +146,9 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
             Log.w(TAG, "Cannot parse user profile", e);
         }
     }
+
+    @ReactMethod
+    public void putErrorEnvironmentValue(String key, String value) {
+        AppMetrica.putErrorEnvironmentValue(key, value);
+    }
 }

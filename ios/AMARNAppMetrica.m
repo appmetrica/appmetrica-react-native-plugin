@@ -115,6 +115,11 @@ RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)userProfileDict)
     [AMAAppMetrica reportUserProfile:[AMARNAppMetricaUtils userProfileForDict:userProfileDict] onFailure:nil];
 }
 
+RCT_EXPORT_METHOD(putErrorEnvironmentValue:(NSString *)key:(NSString *)value)
+{
+    [[AMAAppMetricaCrashes crashes] setErrorEnvironmentValue:value forKey:key];
+}
+
 - (NSObject *)wrap:(NSObject *)value
 {
     if (value == nil) {

@@ -54,6 +54,8 @@ export type AppMetricaConfig = {
   sessionsAutoTracking?: boolean; // iOS only
   appOpenTrackingEnabled?: boolean;
   userProfileID?: string;
+
+  errorEnvironment?: Record<string, string | undefined>
 };
 
 export type PreloadInfo = {
@@ -173,5 +175,9 @@ export default class AppMetrica {
 
   static reportUserProfile(userProfile: UserProfile) {
     AppMetricaNative.reportUserProfile(userProfile)
+  }
+
+  static putErrorEnvironmentValue(key: string, value?: string) {
+    AppMetricaNative.putErrorEnvironmentValue(key, value);
   }
 }

@@ -53,6 +53,12 @@
     if (crashConfigDict[@"crashReporting"] != nil) {
         crashesConfiguration.autoCrashTracking = [crashConfigDict[@"crashReporting"] boolValue];
     }
+    if (crashConfigDict[@"errorEnvironment"] != nil) {
+        NSDictionary *errorEnvironmentDict = crashConfigDict[@"errorEnvironment"];
+        for (NSString *key in errorEnvironmentDict) {
+            [[AMAAppMetricaCrashes crashes] setErrorEnvironmentValue:errorEnvironmentDict[key] forKey:key];
+        }
+    }
     return crashesConfiguration;
 }
 
@@ -116,7 +122,7 @@
                                                        categoryComponents:categoriesPath
                                                               searchQuery:searchQuery
                                                                   payload:payload];
-    
+
     return screen;
 }
 
@@ -127,16 +133,16 @@
     }
     AMAECommerceAmount *amount = [self ecommerceAmountForDict:ecommercePriceDict[@"amount"]];
     NSArray *componentsArray = ecommercePriceDict[@"internalComponents"];
-    
+
     NSMutableArray *components = [[NSMutableArray alloc] init];
 
     for (NSDictionary *item in componentsArray) {
         [components addObject:[self ecommerceAmountForDict:item]];
     }
-    
+
     AMAECommercePrice *price = [[AMAECommercePrice alloc] initWithFiat:amount
                                                     internalComponents:components];
-    
+
     return price;
 }
 
@@ -148,7 +154,7 @@
     NSString *type = ecommerceReferrerDict[@"type"];
     NSString *identifier = ecommerceReferrerDict[@"identifier"];
     AMAECommerceScreen *screen = [self ecommerceScreenForDict:ecommerceReferrerDict[@"screen"]];
-    
+
     AMAECommerceReferrer *referrer = [[AMAECommerceReferrer alloc] initWithType:type
                                                                      identifier:identifier
                                                                          screen:screen];
@@ -167,7 +173,7 @@
     NSDictionary *payload = ecommerceProductDict[@"payload"];
     AMAECommercePrice *actualPrice = [self ecommercePriceForDict:ecommerceProductDict[@"actualPrice"]];
     AMAECommercePrice *originalPrice = [self ecommercePriceForDict:ecommerceProductDict[@"originalPrice"]];
-    
+
     AMAECommerceProduct *product = [[AMAECommerceProduct alloc] initWithSKU:sku
                                                                        name:name
                                                          categoryComponents:categoriesPath
@@ -187,7 +193,7 @@
     AMAECommercePrice *price = [self ecommercePriceForDict:ecommerceCartItemDict[@"price"]];
     NSDecimalNumber *quantity = [NSDecimalNumber decimalNumberWithDecimal:[ecommerceCartItemDict[@"quantity"] decimalValue]];
     AMAECommerceReferrer *referrer = [self ecommerceReferrerForDict:ecommerceCartItemDict[@"referrer"]];
-    
+
     AMAECommerceCartItem *items = [[AMAECommerceCartItem alloc] initWithProduct:product quantity:quantity revenue:price referrer:referrer];
     return items;
 }
@@ -205,7 +211,7 @@
     for (NSDictionary *item in cartItemsArrayDict) {
         [cartItems addObject:[self ecommerceCartItemForDict:item]];
     }
-    
+
     AMAECommerceOrder *order = [[AMAECommerceOrder alloc] initWithIdentifier:orderId cartItems:cartItems payload:payload];
     return order;
 }
@@ -215,7 +221,7 @@
     if (ecommerceAmountDict == nil) {
         return nil;
     }
-    
+
     NSString *unit = ecommerceAmountDict[@"unit"];
     NSDecimalNumber *value = [NSDecimalNumber decimalNumberWithDecimal:[ecommerceAmountDict[@"amount"] decimalValue]];
     AMAECommerceAmount *amount = [[AMAECommerceAmount alloc] initWithUnit:unit value:value];
@@ -254,7 +260,7 @@
     if ([type isEqualToString:@"removeCartItemEvent"]) {
         AMAECommerceCartItem *item = [self ecommerceCartItemForDict:ecommerceDict[@"cartItem"]];
         AMAECommerce *event = [AMAECommerce removeCartItemEventWithItem:item];
-        
+
         return event;
     }
     if ([type isEqualToString:@"beginCheckoutEvent"]) {
@@ -270,7 +276,7 @@
     return nil;
 }
 
-+ (AMARevenueInfo *)revenueForDict:(NSDictionary *)revenueDict 
++ (AMARevenueInfo *)revenueForDict:(NSDictionary *)revenueDict
 {
     NSNumber *number = revenueDict[@"price"];
     NSDecimalNumber *price = [NSDecimalNumber decimalNumberWithDecimal:number.decimalValue];
@@ -297,7 +303,7 @@
     return revenueInfo;
 }
 
-+ (AMAAdRevenueInfo *)adRevenueForDict:(NSDictionary *)revenueDict 
++ (AMAAdRevenueInfo *)adRevenueForDict:(NSDictionary *)revenueDict
 {
     NSNumber *number = revenueDict[@"price"];
     NSDecimalNumber *price = [NSDecimalNumber decimalNumberWithDecimal:number.decimalValue];
