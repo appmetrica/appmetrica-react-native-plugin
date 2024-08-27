@@ -40,7 +40,7 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     public void activate(ReadableMap configMap) {
         AppMetricaConfig config = Utils.toAppMetricaConfig(configMap);
         AppMetrica.activate(reactContext, config);
-        if (Boolean.TRUE.equals(config.sessionsAutoTrackingEnabled)) {
+        if (!Boolean.FALSE.equals(config.sessionsAutoTrackingEnabled)) {
             AppMetrica.resumeSession(getCurrentActivity());
         }
     }
