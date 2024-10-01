@@ -2,6 +2,7 @@ import { Linking, NativeModules, Platform } from 'react-native';
 import type { ECommerceEvent } from './ecommerce';
 import type { AdRevenue, Revenue } from './revenue';
 import type { UserProfile } from './userProfile';
+import type { ExternalAttribution } from './externalAttribution';
 import { normalizeAdRevenue } from './utils';
 
 const LINKING_ERROR =
@@ -55,7 +56,7 @@ export type AppMetricaConfig = {
   appOpenTrackingEnabled?: boolean;
   userProfileID?: string;
 
-  errorEnvironment?: Record<string, string | undefined>
+  errorEnvironment?: Record<string, string | undefined>;
 };
 
 export type PreloadInfo = {
@@ -93,6 +94,7 @@ export const UUID_KEY = 'appmetrica_uuid';
 export * from './ecommerce';
 export * from './revenue';
 export * from './userProfile';
+export * from './externalAttribution';
 
 export default class AppMetrica {
   static activate(config: AppMetricaConfig) {
@@ -174,10 +176,14 @@ export default class AppMetrica {
   }
 
   static reportUserProfile(userProfile: UserProfile) {
-    AppMetricaNative.reportUserProfile(userProfile)
+    AppMetricaNative.reportUserProfile(userProfile);
   }
 
   static putErrorEnvironmentValue(key: string, value?: string) {
     AppMetricaNative.putErrorEnvironmentValue(key, value);
+  }
+
+  static reportExternalAttribution(attribution: ExternalAttribution) {
+    AppMetricaNative.reportExternalAttribution(attribution);
   }
 }

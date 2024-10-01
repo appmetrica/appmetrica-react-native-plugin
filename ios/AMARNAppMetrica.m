@@ -3,6 +3,7 @@
 #import "AMARNAppMetricaUtils.h"
 #import "AMARNStartupParamsUtils.h"
 #import "AMARNUserProfileSerializer.h"
+#import "AMARNExternalAttribution.h"
 #import <AppMetricaCrashes/AppMetricaCrashes.h>
 
 @implementation AMARNAppMetrica
@@ -118,6 +119,23 @@ RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)userProfileDict)
 RCT_EXPORT_METHOD(putErrorEnvironmentValue:(NSString *)key:(NSString *)value)
 {
     [[AMAAppMetricaCrashes crashes] setErrorEnvironmentValue:value forKey:key];
+}
+
+RCT_EXPORT_METHOD(reportExternalAttribution:(NSDictionary *)externalAttributionsDict)
+{
+    
+    NSString *sourceStr = externalAttributionsDict[@"source"];
+    AMAAttributionSource source = amarn_getExternalAttributionSource(sourceStr);
+    if (source == nil) {
+        NSLog(@"Failed to report external attribution to AppMetrica. Unknown source %@", sourceStr);
+        return;
+    }
+    
+    NSDictionary *value = externalAttributionsDict[@"value"];
+    
+    [AMAAppMetrica reportExternalAttribution:value source:source onFailure:^(NSError *error) {
+        NSLog(@"Failed to report external attribution to AppMetrica: %@", [error localizedDescription]);
+    }];
 }
 
 - (NSObject *)wrap:(NSObject *)value

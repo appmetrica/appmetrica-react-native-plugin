@@ -1,6 +1,6 @@
 package io.appmetrica.analytics.reactnative;
 
-import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.facebook.react.bridge.Callback;
@@ -12,8 +12,12 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.module.annotations.ReactModule;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import io.appmetrica.analytics.AppMetrica;
 import io.appmetrica.analytics.AppMetricaConfig;
+import io.appmetrica.analytics.ModulesFacade;
 import io.appmetrica.analytics.ecommerce.ECommerceEvent;
 
 @ReactModule(name = AppMetricaModule.NAME)
@@ -150,5 +154,13 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void putErrorEnvironmentValue(String key, String value) {
         AppMetrica.putErrorEnvironmentValue(key, value);
+    }
+
+    @ReactMethod
+    public void reportExternalAttribution(ReadableMap attribution) {
+        ModulesFacade.reportExternalAttribution(
+                ExternalAttributionSerializer.parseSource(attribution.getString("source")),
+                ExternalAttributionSerializer.parseValue(attribution.getMap("value"))
+        );
     }
 }
