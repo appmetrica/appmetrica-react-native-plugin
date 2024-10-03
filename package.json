@@ -1,6 +1,6 @@
 {
   "name": "@appmetrica/react-native-analytics",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "React Native plugin for AppMetrica analytics tool",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
