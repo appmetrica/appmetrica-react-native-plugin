@@ -5,6 +5,7 @@
 #import "AMARNUserProfileSerializer.h"
 #import "AMARNExternalAttribution.h"
 #import <AppMetricaCrashes/AppMetricaCrashes.h>
+#import "AMARNExceptionSerializer.h"
 
 @implementation AMARNAppMetrica
 
@@ -38,9 +39,13 @@ RCT_EXPORT_METHOD(reportAppOpen:(NSString *)deeplink)
     [AMAAppMetrica trackOpeningURL:[NSURL URLWithString:deeplink]];
 }
 
-RCT_EXPORT_METHOD(reportError:(NSString *)identifier:(NSString *)message) {
-    AMAError *error = [AMAError errorWithIdentifier:identifier message:message parameters:NULL];
-    [[AMAAppMetricaCrashes crashes] reportError:error onFailure:nil];
+RCT_EXPORT_METHOD(reportError:(NSString *)identifier:(NSString *)message:(NSDictionary *)_reason) {
+    [[[AMAAppMetricaCrashes crashes] pluginExtension] reportErrorWithIdentifier:identifier
+                                                                        message:message
+                                                                        details:amarn_exceptionForDictionary(_reason)
+                                                                      onFailure:^(NSError *error) {
+        NSLog(@"Failed to report error to AppMetrica: %@", [error localizedDescription]);
+    }];
 }
 
 RCT_EXPORT_METHOD(reportEvent:(NSString *)eventName:(NSDictionary *)attributes)
@@ -123,18 +128,44 @@ RCT_EXPORT_METHOD(putErrorEnvironmentValue:(NSString *)key:(NSString *)value)
 
 RCT_EXPORT_METHOD(reportExternalAttribution:(NSDictionary *)externalAttributionsDict)
 {
-    
+
     NSString *sourceStr = externalAttributionsDict[@"source"];
     AMAAttributionSource source = amarn_getExternalAttributionSource(sourceStr);
     if (source == nil) {
         NSLog(@"Failed to report external attribution to AppMetrica. Unknown source %@", sourceStr);
         return;
     }
-    
+
     NSDictionary *value = externalAttributionsDict[@"value"];
-    
+
     [AMAAppMetrica reportExternalAttribution:value source:source onFailure:^(NSError *error) {
         NSLog(@"Failed to report external attribution to AppMetrica: %@", [error localizedDescription]);
+    }];
+}
+
+
+RCT_EXPORT_METHOD(reportErrorWithoutIdentifier:(NSString *)message:(NSDictionary *)error)
+{
+    AMAPluginErrorDetails *details = amarn_exceptionForDictionary(error);
+    if (details.backtrace.count == 0) {
+        [[[AMAAppMetricaCrashes crashes] pluginExtension] reportErrorWithIdentifier:@"Errors without stacktrace"
+                                                                            message:message
+                                                                            details:details
+                                                                          onFailure:^(NSError *error) {
+            NSLog(@"Failed to report error to AppMetrica: %@", [error localizedDescription]);
+        }];
+    } else {
+        [[[AMAAppMetricaCrashes crashes] pluginExtension] reportError:details message:message onFailure:^(NSError *error) {
+            NSLog(@"Failed to report error to AppMetrica: %@", [error localizedDescription]);
+        }];
+    }
+}
+
+RCT_EXPORT_METHOD(reportUnhandledException:(NSDictionary *)error)
+{
+    [[[AMAAppMetricaCrashes crashes] pluginExtension] reportUnhandledException:amarn_exceptionForDictionary(error)
+                                                                     onFailure:^(NSError *error) {
+        NSLog(@"Failed to report unhandled exception to AppMetrica: %@", [error localizedDescription]);
     }];
 }
 

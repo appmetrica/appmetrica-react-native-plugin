@@ -19,6 +19,7 @@ import io.appmetrica.analytics.AppMetrica;
 import io.appmetrica.analytics.AppMetricaConfig;
 import io.appmetrica.analytics.ModulesFacade;
 import io.appmetrica.analytics.ecommerce.ECommerceEvent;
+import io.appmetrica.analytics.plugins.PluginErrorDetails;
 
 @ReactModule(name = AppMetricaModule.NAME)
 public class AppMetricaModule extends ReactContextBaseJavaModule {
@@ -70,12 +71,9 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void reportError(String identifier, String message) {
-        try {
-            Integer.valueOf("00xffWr0ng");
-        } catch (Throwable error) {
-            AppMetrica.reportError(identifier, message, error);
-        }
+    public void reportError(String identifier, String message, ReadableMap _reason) {
+        PluginErrorDetails errorDetails = _reason != null ? ExceptionSerializer.fromObject(_reason) : null;
+        AppMetrica.getPluginExtension().reportError(identifier, message, errorDetails);
     }
 
     @ReactMethod
@@ -154,6 +152,22 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void putErrorEnvironmentValue(String key, String value) {
         AppMetrica.putErrorEnvironmentValue(key, value);
+    }
+
+    @ReactMethod
+    public void reportErrorWithoutIdentifier(String message, ReadableMap error) {
+        PluginErrorDetails details = ExceptionSerializer.fromObject(error);
+        if (details.getStacktrace().isEmpty()) {
+            AppMetrica.getPluginExtension().reportError("Errors without stacktrace", message, details);
+        } else {
+            AppMetrica.getPluginExtension().reportError(details, message);
+        }
+    }
+
+    @ReactMethod
+    public void reportUnhandledException(ReadableMap error) {
+        PluginErrorDetails details = ExceptionSerializer.fromObject(error);
+        AppMetrica.getPluginExtension().reportUnhandledException(details);
     }
 
     @ReactMethod

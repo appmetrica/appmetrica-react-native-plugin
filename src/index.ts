@@ -4,6 +4,7 @@ import type { AdRevenue, Revenue } from './revenue';
 import type { UserProfile } from './userProfile';
 import type { ExternalAttribution } from './externalAttribution';
 import { normalizeAdRevenue } from './utils';
+import { AppMetricaError } from './error';
 
 const LINKING_ERROR =
   `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
@@ -124,8 +125,24 @@ export default class AppMetrica {
     AppMetricaNative.reportAppOpen(deeplink);
   }
 
-  static reportError(identifier: string, message: string, _reason?: Object) {
-    AppMetricaNative.reportError(identifier, message);
+  static reportError(
+    identifier: string,
+    message?: string,
+    _reason?: Error | Object
+  ) {
+    AppMetricaNative.reportError(
+      identifier,
+      message,
+      _reason instanceof Error ? AppMetricaError.withError(_reason) : AppMetricaError.withObject(_reason)
+    );
+  }
+
+  static reportUnhandledException(error: Error) {
+    AppMetricaNative.reportUnhandledException(AppMetricaError.withError(error));
+  }
+
+  static reportErrorWithoutIdentifier(message: string | undefined, error: Error) {
+    AppMetricaNative.reportErrorWithoutIdentifier(message, AppMetricaError.withError(error));
   }
 
   static reportEvent(eventName: string, attributes?: Record<string, any>) {

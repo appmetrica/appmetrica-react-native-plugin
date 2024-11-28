@@ -473,7 +473,7 @@ abstract class Utils {
     }
 
     @Nullable
-    private static Map<String, String> toMapOfStrings(@Nullable ReadableMap oldMap) {
+    static Map<String, String> toMapOfStrings(@Nullable ReadableMap oldMap) {
         if (oldMap == null) {
             return null;
         }
