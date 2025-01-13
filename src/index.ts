@@ -58,6 +58,7 @@ export type AppMetricaConfig = {
   userProfileID?: string;
 
   errorEnvironment?: Record<string, string | undefined>;
+  appEnvironment?: Record<string, string | undefined>;
 };
 
 export type PreloadInfo = {
@@ -202,5 +203,13 @@ export default class AppMetrica {
 
   static reportExternalAttribution(attribution: ExternalAttribution) {
     AppMetricaNative.reportExternalAttribution(attribution);
+  }
+
+  static putAppEnvironmentValue(key: string, value?: string) {
+    AppMetricaNative.putAppEnvironmentValue(key, value);
+  }
+
+  static clearAppEnvironment() {
+    AppMetricaNative.clearAppEnvironment();
   }
 }

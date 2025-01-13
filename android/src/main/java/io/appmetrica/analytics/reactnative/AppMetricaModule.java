@@ -177,4 +177,14 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
                 ExternalAttributionSerializer.parseValue(attribution.getMap("value"))
         );
     }
+
+    @ReactMethod
+    public void putAppEnvironmentValue(String key, String value) {
+        AppMetrica.putAppEnvironmentValue(key, value);
+    }
+
+    @ReactMethod
+    public void clearAppEnvironment() {
+        AppMetrica.clearAppEnvironment();
+    }
 }

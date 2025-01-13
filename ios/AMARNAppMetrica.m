@@ -143,7 +143,6 @@ RCT_EXPORT_METHOD(reportExternalAttribution:(NSDictionary *)externalAttributions
     }];
 }
 
-
 RCT_EXPORT_METHOD(reportErrorWithoutIdentifier:(NSString *)message:(NSDictionary *)error)
 {
     AMAPluginErrorDetails *details = amarn_exceptionForDictionary(error);
@@ -167,6 +166,16 @@ RCT_EXPORT_METHOD(reportUnhandledException:(NSDictionary *)error)
                                                                      onFailure:^(NSError *error) {
         NSLog(@"Failed to report unhandled exception to AppMetrica: %@", [error localizedDescription]);
     }];
+}
+
+RCT_EXPORT_METHOD(putAppEnvironmentValue:(NSString *)key:(NSString *)value)
+{
+    [AMAAppMetrica setAppEnvironmentValue:value forKey:key];
+}
+
+RCT_EXPORT_METHOD(clearAppEnvironment)
+{
+    [AMAAppMetrica clearAppEnvironment];
 }
 
 - (NSObject *)wrap:(NSObject *)value

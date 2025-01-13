@@ -84,6 +84,15 @@ abstract class Utils {
                 }
             }
         }
+        if (configMap.hasKey("appEnvironment")) {
+            ReadableMap appEnvironmentMap = configMap.getMap("appEnvironment");
+            if (appEnvironmentMap != null) {
+                for (Map.Entry<String, Object> entry : appEnvironmentMap.toHashMap().entrySet()) {
+                    Object value = entry.getValue();
+                    builder.withAppEnvironmentValue(entry.getKey(), value == null ? null : value.toString());
+                }
+            }
+        }
 
         return builder.build();
     }

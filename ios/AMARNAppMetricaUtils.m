@@ -43,6 +43,12 @@
     if (configDict[@"userProfileID"] != nil) {
         configuration.userProfileID = configDict[@"userProfileID"];
     }
+    if (configDict[@"appEnvironment"] != nil) {
+        NSDictionary *appEnvironmetMap = configDict[@"appEnvironment"];
+        for (NSString *key in appEnvironmetMap) {
+            [AMAAppMetrica setAppEnvironmentValue:appEnvironmetMap[key] forKey:key];
+        }
+    }
 
     return configuration;
 }
