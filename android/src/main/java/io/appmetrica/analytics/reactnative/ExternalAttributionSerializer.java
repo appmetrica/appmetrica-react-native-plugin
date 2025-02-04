@@ -16,15 +16,22 @@ final class ExternalAttributionSerializer {
             return -1;
         }
 
-        return switch (sourceString) {
-            case "AppsFlyer" -> ModulesFacade.EXTERNAL_ATTRIBUTION_APPSFLYER;
-            case "Adjust" -> ModulesFacade.EXTERNAL_ATTRIBUTION_ADJUST;
-            case "Kochava" -> ModulesFacade.EXTERNAL_ATTRIBUTION_KOCHAVA;
-            case "Tenjin" -> ModulesFacade.EXTERNAL_ATTRIBUTION_TENJIN;
-            case "Airbridge" -> ModulesFacade.EXTERNAL_ATTRIBUTION_AIRBRIDGE;
-            case "Singular" -> ModulesFacade.EXTERNAL_ATTRIBUTION_SINGULAR;
-            default -> -1;
-        };
+        switch (sourceString) {
+            case "AppsFlyer":
+                return ModulesFacade.EXTERNAL_ATTRIBUTION_APPSFLYER;
+            case "Adjust":
+                return ModulesFacade.EXTERNAL_ATTRIBUTION_ADJUST;
+            case "Kochava":
+                return ModulesFacade.EXTERNAL_ATTRIBUTION_KOCHAVA;
+            case "Tenjin":
+                return ModulesFacade.EXTERNAL_ATTRIBUTION_TENJIN;
+            case "Airbridge":
+                return ModulesFacade.EXTERNAL_ATTRIBUTION_AIRBRIDGE;
+            case "Singular":
+                return ModulesFacade.EXTERNAL_ATTRIBUTION_SINGULAR;
+            default:
+                return -1;
+        }
     }
 
     public static String parseValue(ReadableMap valueMap) {
