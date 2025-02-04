@@ -1,4 +1,5 @@
 {
+  ".":"mobile/metrika/react-native/appmetrica-plugin",
   ".editorconfig":"mobile/metrika/react-native/appmetrica-plugin/.editorconfig",
   ".gitattributes":"mobile/metrika/react-native/appmetrica-plugin/.gitattributes",
   ".gitignore":"mobile/metrika/react-native/appmetrica-plugin/.gitignore",
