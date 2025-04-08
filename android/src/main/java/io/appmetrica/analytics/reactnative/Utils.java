@@ -11,6 +11,7 @@ import io.appmetrica.analytics.AdRevenue;
 import io.appmetrica.analytics.AdType;
 import io.appmetrica.analytics.AppMetricaConfig;
 import io.appmetrica.analytics.PreloadInfo;
+import io.appmetrica.analytics.ReporterConfig;
 import io.appmetrica.analytics.Revenue;
 import io.appmetrica.analytics.StartupParamsCallback;
 import io.appmetrica.analytics.profile.UserProfile;
@@ -92,6 +93,12 @@ abstract class Utils {
                     builder.withAppEnvironmentValue(entry.getKey(), value == null ? null : value.toString());
                 }
             }
+        }
+        if (configMap.hasKey("maxReportsCount")) {
+            builder.withMaxReportsCount(configMap.getInt("maxReportsCount"));
+        }
+        if (configMap.hasKey("dispatchPeriodSeconds")) {
+            builder.withDispatchPeriodSeconds(configMap.getInt("dispatchPeriodSeconds"));
         }
 
         return builder.build();
@@ -506,5 +513,43 @@ abstract class Utils {
             newArray.add(Objects.toString(object));
         }
         return newArray;
+    }
+
+    @NonNull
+    static ReporterConfig toReporterConfig(@NonNull ReadableMap configMap) {
+        ReporterConfig.Builder builder = ReporterConfig.newConfigBuilder(Objects.requireNonNull(configMap.getString("apiKey")));
+
+        if (configMap.hasKey("logs") && Boolean.TRUE.equals(configMap.getBoolean("logs"))) {
+            builder.withLogs();
+        }
+        if (configMap.hasKey("maxReportsInDatabaseCount")) {
+            builder.withMaxReportsInDatabaseCount(configMap.getInt("maxReportsInDatabaseCount"));
+        }
+        if (configMap.hasKey("sessionTimeout")) {
+            builder.withSessionTimeout(configMap.getInt("sessionTimeout"));
+        }
+        if (configMap.hasKey("dataSendingEnabled")) {
+            builder.withDataSendingEnabled(configMap.getBoolean("dataSendingEnabled"));
+        }
+        if (configMap.hasKey("appEnvironment")) {
+            ReadableMap appMap = configMap.getMap("appEnvironment");
+            if (appMap != null) {
+                for (Map.Entry<String, Object> entry : appMap.toHashMap().entrySet()) {
+                    if (entry.getValue() instanceof String) {
+                        builder.withAppEnvironmentValue(entry.getKey(), entry.getValue().toString());
+                    }
+                }
+            }
+        }
+        if (configMap.hasKey("dispatchPeriodSeconds")) {
+            builder.withDispatchPeriodSeconds(configMap.getInt("dispatchPeriodSeconds"));
+        }
+        if (configMap.hasKey("userProfileID")) {
+            builder.withUserProfileID(configMap.getString("userProfileID"));
+        }
+        if (configMap.hasKey("maxReportsCount")) {
+            builder.withMaxReportsCount(configMap.getInt("maxReportsCount"));
+        }
+        return builder.build();
     }
 }

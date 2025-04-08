@@ -22,5 +22,6 @@
 + (AMAAdType)toAdType:(NSString *)type;
 + (NSDictionary *)convertRevenueInfoPayload:(NSString *)payload;
 + (AMAUserProfile *)userProfileForDict:(NSDictionary *)userProfileDict;
++ (AMAMutableReporterConfiguration *)reporterConfigurationForDictionary:(NSDictionary *)configDict;
 
 @end

@@ -17,6 +17,7 @@ public class AppMetricaPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new AppMetricaModule(reactContext));
+        modules.add(new ReporterModule(reactContext));
         return modules;
     }
 

@@ -44,10 +44,16 @@
         configuration.userProfileID = configDict[@"userProfileID"];
     }
     if (configDict[@"appEnvironment"] != nil) {
-        NSDictionary *appEnvironmetMap = configDict[@"appEnvironment"];
-        for (NSString *key in appEnvironmetMap) {
-            [AMAAppMetrica setAppEnvironmentValue:appEnvironmetMap[key] forKey:key];
+        NSDictionary *appEnvironmentMap = configDict[@"appEnvironment"];
+        for (NSString *key in appEnvironmentMap) {
+            [AMAAppMetrica setAppEnvironmentValue:appEnvironmentMap[key] forKey:key];
         }
+    }
+    if (configDict[@"maxReportsCount"] != nil) {
+        configuration.maxReportsCount = [configDict[@"maxReportsCount"] unsignedIntegerValue];
+    }
+    if (configDict[@"dispatchPeriodSeconds"] != nil) {
+        configuration.dispatchPeriod = [configDict[@"dispatchPeriodSeconds"] unsignedIntegerValue];
     }
 
     return configuration;
@@ -383,6 +389,40 @@
 + (AMAUserProfile *)userProfileForDict:(NSDictionary *)userProfileDict
 {
     return amarn_deserializeUserProfile(userProfileDict);
+}
+
++ (AMAMutableReporterConfiguration *)reporterConfigurationForDictionary:(NSDictionary *)configDict
+{
+    NSString *apiKey = configDict[@"apiKey"];
+    AMAMutableReporterConfiguration *configuration = [[AMAMutableReporterConfiguration alloc] initWithAPIKey:apiKey];
+    if (configDict[@"logs"] != nil) {
+        configuration.logsEnabled = [configDict[@"logs"] boolValue];
+    }
+    if (configDict[@"maxReportsInDatabaseCount"] != nil) {
+        configuration.maxReportsInDatabaseCount = [configDict[@"maxReportsInDatabaseCount"] unsignedIntegerValue];
+    }
+    if (configDict[@"sessionTimeout"] != nil) {
+        configuration.sessionTimeout = [configDict[@"sessionTimeout"] unsignedIntegerValue];
+    }
+    if (configDict[@"dataSendingEnabled"] != nil) {
+        configuration.dataSendingEnabled = [configDict[@"dataSendingEnabled"] boolValue];
+    }
+    if (configDict[@"appEnvironment"] != nil) {
+        NSDictionary *appEnvironmentMap = configDict[@"appEnvironment"];
+        for (NSString *key in appEnvironmentMap) {
+            [AMAAppMetrica setAppEnvironmentValue:appEnvironmentMap[key] forKey:key];
+        }
+    }
+    if (configDict[@"userProfileID"] != nil) {
+        configuration.userProfileID = configDict[@"userProfileID"];
+    }
+    if (configDict[@"dispatchPeriodSeconds"] != nil) {
+        configuration.dispatchPeriod = [configDict[@"dispatchPeriodSeconds"] unsignedIntegerValue];
+    }
+    if (configDict[@"maxReportsCount"] != nil) {
+        configuration.maxReportsCount = [configDict[@"maxReportsCount"] unsignedIntegerValue];
+    }
+    return configuration;
 }
 
 @end

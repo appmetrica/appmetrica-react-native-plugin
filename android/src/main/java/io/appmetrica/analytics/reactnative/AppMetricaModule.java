@@ -187,4 +187,14 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     public void clearAppEnvironment() {
         AppMetrica.clearAppEnvironment();
     }
+
+    @ReactMethod
+    public void activateReporter(ReadableMap configMap) {
+        AppMetrica.activateReporter(reactContext, Utils.toReporterConfig(configMap));
+    }
+
+    @ReactMethod
+    public void touchReporter(String apiKey) {
+        AppMetrica.getReporter(reactContext, apiKey);
+    }
 }

@@ -98,7 +98,7 @@ RCT_EXPORT_METHOD(setDataSendingEnabled:(BOOL)enabled)
 
 RCT_EXPORT_METHOD(reportECommerce:(NSDictionary *)ecommerceDict)
 {
-   [AMAAppMetrica reportECommerce:[AMARNAppMetricaUtils ecommerceForDict:ecommerceDict] onFailure:nil];
+    [AMAAppMetrica reportECommerce:[AMARNAppMetricaUtils ecommerceForDict:ecommerceDict] onFailure:nil];
 }
 
 RCT_EXPORT_METHOD(setUserProfileID:(NSString *)userProfileID)
@@ -176,6 +176,16 @@ RCT_EXPORT_METHOD(putAppEnvironmentValue:(NSString *)key:(NSString *)value)
 RCT_EXPORT_METHOD(clearAppEnvironment)
 {
     [AMAAppMetrica clearAppEnvironment];
+}
+
+RCT_EXPORT_METHOD(activateReporter:(NSDictionary *)configDict)
+{
+    [AMAAppMetrica activateReporterWithConfiguration:[AMARNAppMetricaUtils reporterConfigurationForDictionary:configDict]];
+}
+
+RCT_EXPORT_METHOD(touchReporter:(NSString *)apiKey)
+{
+    [AMAAppMetrica reporterForAPIKey:apiKey];
 }
 
 - (NSObject *)wrap:(NSObject *)value

@@ -5,6 +5,7 @@ import type { UserProfile } from './userProfile';
 import type { ExternalAttribution } from './externalAttribution';
 import { normalizeAdRevenue } from './utils';
 import { AppMetricaError } from './error';
+import { Reporter, type IReporter, type ReporterConfig } from './reporter';
 
 const LINKING_ERROR =
   `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
@@ -59,6 +60,8 @@ export type AppMetricaConfig = {
 
   errorEnvironment?: Record<string, string | undefined>;
   appEnvironment?: Record<string, string | undefined>;
+  maxReportsCount?: number;
+  dispatchPeriodSeconds?: number;
 };
 
 export type PreloadInfo = {
@@ -97,8 +100,12 @@ export * from './ecommerce';
 export * from './revenue';
 export * from './userProfile';
 export * from './externalAttribution';
+export type { IReporter, ReporterConfig } from './reporter';
 
 export default class AppMetrica {
+
+  private static reporters: Map<string, Reporter> = new Map();
+
   static activate(config: AppMetricaConfig) {
     if (!activated) {
       AppMetricaNative.activate(config);
@@ -211,5 +218,20 @@ export default class AppMetrica {
 
   static clearAppEnvironment() {
     AppMetricaNative.clearAppEnvironment();
+  }
+
+  static getReporter(apiKey: string): IReporter {
+    if (AppMetrica.reporters.has(apiKey)) {
+      return AppMetrica.reporters.get(apiKey)!;
+    } else {
+      AppMetricaNative.touchReporter(apiKey);
+      const reporter = new Reporter(apiKey);
+      AppMetrica.reporters.set(apiKey, reporter);
+      return reporter;
+    }
+  }
+
+  static activateReporter(config: ReporterConfig) {
+    AppMetricaNative.activateReporter(config);
   }
 }
