@@ -6,6 +6,10 @@ import type { ExternalAttribution } from './externalAttribution';
 import { normalizeAdRevenue } from './utils';
 import { AppMetricaError } from './error';
 import { Reporter, type IReporter, type ReporterConfig } from './reporter';
+import type {
+  DeferredDeeplinkListener,
+  DeferredDeeplinkParametersListener,
+} from './deferredDeeplink';
 
 const LINKING_ERROR =
   `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
@@ -101,6 +105,7 @@ export * from './revenue';
 export * from './userProfile';
 export * from './externalAttribution';
 export type { IReporter, ReporterConfig } from './reporter';
+export * from './deferredDeeplink';
 
 export default class AppMetrica {
 
@@ -241,5 +246,21 @@ export default class AppMetrica {
 
   static getUuid(): Promise<string | null> {
     return AppMetricaNative.getUuid();
+  }
+
+  static requestDeferredDeeplink(listener: DeferredDeeplinkListener) {
+    AppMetricaNative.requestDeferredDeeplink(
+      listener.onFailure,
+      listener.onSuccess
+    );
+  }
+
+  static requestDeferredDeeplinkParameters(
+    listener: DeferredDeeplinkParametersListener
+  ) {
+    AppMetricaNative.requestDeferredDeeplinkParameters(
+      listener.onFailure,
+      listener.onSuccess
+    );
   }
 }

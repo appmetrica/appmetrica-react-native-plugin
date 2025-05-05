@@ -207,4 +207,14 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     public void getUuid(Promise promise) {
         promise.resolve(AppMetrica.getUuid(reactContext));
     }
+
+    @ReactMethod
+    public void requestDeferredDeeplink(Callback failureCallback, Callback successCallback) {
+        AppMetrica.requestDeferredDeeplink(new ReactNativeDeferredDeeplinkListener(failureCallback, successCallback));
+    }
+
+    @ReactMethod
+    public void requestDeferredDeeplinkParameters(Callback failureCallback, Callback successCallback) {
+        AppMetrica.requestDeferredDeeplinkParameters(new ReactNativeDeferredDeeplinkParametersListener(failureCallback, successCallback));
+    }
 }

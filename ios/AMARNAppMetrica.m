@@ -198,6 +198,16 @@ RCT_EXPORT_METHOD(getUuid:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRe
     resolve([AMAAppMetrica UUID]);
 }
 
+RCT_EXPORT_METHOD(requestDeferredDeeplink:(RCTResponseSenderBlock)onFailure:(RCTResponseSenderBlock)onSuccess)
+{
+    // It does nothing for iOS
+}
+
+RCT_EXPORT_METHOD(requestDeferredDeeplinkParameters:(RCTResponseSenderBlock)onFailure:(RCTResponseSenderBlock)onSuccess)
+{
+    // It does nothing for iOS
+}
+
 - (NSObject *)wrap:(NSObject *)value
 {
     if (value == nil) {
