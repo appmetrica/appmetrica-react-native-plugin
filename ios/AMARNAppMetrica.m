@@ -188,6 +188,16 @@ RCT_EXPORT_METHOD(touchReporter:(NSString *)apiKey)
     [AMAAppMetrica reporterForAPIKey:apiKey];
 }
 
+RCT_EXPORT_METHOD(getDeviceId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve([AMAAppMetrica deviceID]);
+}
+
+RCT_EXPORT_METHOD(getUuid:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve([AMAAppMetrica UUID]);
+}
+
 - (NSObject *)wrap:(NSObject *)value
 {
     if (value == nil) {

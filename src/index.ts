@@ -234,4 +234,12 @@ export default class AppMetrica {
   static activateReporter(config: ReporterConfig) {
     AppMetricaNative.activateReporter(config);
   }
+
+  static getDeviceId(): Promise<string | null> {
+    return AppMetricaNative.getDeviceId();
+  }
+
+  static getUuid(): Promise<string | null> {
+    return AppMetricaNative.getUuid();
+  }
 }

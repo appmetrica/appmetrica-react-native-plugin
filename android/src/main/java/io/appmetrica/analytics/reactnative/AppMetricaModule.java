@@ -197,4 +197,14 @@ public class AppMetricaModule extends ReactContextBaseJavaModule {
     public void touchReporter(String apiKey) {
         AppMetrica.getReporter(reactContext, apiKey);
     }
+
+    @ReactMethod
+    public void getDeviceId(Promise promise) {
+        promise.resolve(AppMetrica.getDeviceId(reactContext));
+    }
+
+    @ReactMethod
+    public void getUuid(Promise promise) {
+        promise.resolve(AppMetrica.getUuid(reactContext));
+    }
 }
