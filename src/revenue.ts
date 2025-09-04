@@ -32,5 +32,6 @@ export enum AdType {
   MREC = 'mrec',
   INTERSTITIAL = 'interstitial',
   REWARDED = 'rewarded',
+  APP_OPEN = 'app_open',
   OTHER = 'other',
 }

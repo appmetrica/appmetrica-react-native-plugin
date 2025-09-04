@@ -478,7 +478,9 @@ abstract class Utils {
                 return AdType.INTERSTITIAL;
             case "rewarded":
                 return AdType.REWARDED;
-            default:
+            case "app_open":
+                return AdType.APP_OPEN;
+          default:
                 return AdType.OTHER;
         }
     }

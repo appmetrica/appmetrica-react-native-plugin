@@ -365,6 +365,9 @@
     if ([type isEqualToString:@"rewarded"]){
         return AMAAdTypeRewarded;
     }
+    if ([type isEqualToString:@"app_open"]){
+        return AMAAdTypeAppOpen;
+    }
     if ([type isEqualToString:@"other"]){
         return AMAAdTypeOther;
     }
