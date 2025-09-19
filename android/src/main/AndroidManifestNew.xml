@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <meta-data android:name="io.appmetrica.analytics.plugin_id" android:value="react-native-3.5.0" />
+        <meta-data android:name="io.appmetrica.analytics.plugin_id" android:value="react-native-3.6.0" />
     </application>
 
 </manifest>
