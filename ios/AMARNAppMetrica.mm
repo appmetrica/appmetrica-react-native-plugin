@@ -9,46 +9,47 @@
 
 @implementation AMARNAppMetrica
 
-@synthesize methodQueue = _methodQueue;
-
 RCT_EXPORT_MODULE(AppMetrica)
 
-RCT_EXPORT_METHOD(activate:(NSDictionary *)configDict)
+- (void)activate:(NSDictionary *)configDict
 {
     [[AMAAppMetricaCrashes crashes] setConfiguration:[AMARNAppMetricaUtils crashConfigurationForDictionary:configDict]];
     [AMAAppMetrica activateWithConfiguration:[AMARNAppMetricaUtils configurationForDictionary:configDict]];
 }
 
-RCT_EXPORT_METHOD(getLibraryApiLevel)
+- (void)getLibraryApiLevel:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
 {
     // It does nothing for iOS
 }
 
-RCT_EXPORT_METHOD(getLibraryVersion:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+- (void)getLibraryVersion:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
 {
     resolve([AMAAppMetrica libraryVersion]);
 }
 
-RCT_EXPORT_METHOD(pauseSession)
+- (void)pauseSession
 {
     [AMAAppMetrica pauseSession];
 }
 
-RCT_EXPORT_METHOD(reportAppOpen:(NSString *)deeplink)
+- (void)reportAppOpen:(NSString *)deeplink
 {
     [AMAAppMetrica trackOpeningURL:[NSURL URLWithString:deeplink]];
 }
 
-RCT_EXPORT_METHOD(reportError:(NSString *)identifier:(NSString *)message:(NSDictionary *)_reason) {
+- (void)reportError:(NSString *)identifier
+            message:(NSString *)message
+              error:(NSDictionary *)error {
     [[[AMAAppMetricaCrashes crashes] pluginExtension] reportErrorWithIdentifier:identifier
                                                                         message:message
-                                                                        details:amarn_exceptionForDictionary(_reason)
+                                                                        details:amarn_exceptionForDictionary(error)
                                                                       onFailure:^(NSError *error) {
         NSLog(@"Failed to report error to AppMetrica: %@", [error localizedDescription]);
     }];
 }
 
-RCT_EXPORT_METHOD(reportEvent:(NSString *)eventName:(NSDictionary *)attributes)
+- (void)reportEvent:(NSString *)eventName
+         attributes:(NSDictionary *)attributes
 {
     if (attributes == nil) {
         [AMAAppMetrica reportEvent:eventName onFailure:^(NSError *error) {
@@ -61,72 +62,74 @@ RCT_EXPORT_METHOD(reportEvent:(NSString *)eventName:(NSDictionary *)attributes)
     }
 }
 
-RCT_EXPORT_METHOD(requestStartupParams:(NSArray *)identifiers:(RCTResponseSenderBlock)listener)
+- (void)requestStartupParams:(RCTResponseSenderBlock)listener
+                 identifiers:(NSArray *)identifiers
 {
     AMAIdentifiersCompletionBlock block = ^(NSDictionary<AMAStartupKey,id> * _Nullable identifiers, NSError * _Nullable error) {
         NSDictionary *result = [AMARNStartupParamsUtils toStrartupParamsResult:identifiers];
         NSString *errorStr = [AMARNStartupParamsUtils stringFromRequestStartupParamsError:error];
         listener(@[[self wrap:result], [self wrap:errorStr]]);
     };
-    [AMAAppMetrica requestStartupIdentifiersWithKeys:[AMARNStartupParamsUtils toStartupKeys:identifiers] completionQueue:nil completionBlock:block];
+    [AMAAppMetrica requestStartupIdentifiersWithKeys:identifiers completionQueue:nil completionBlock:block];
 }
 
-RCT_EXPORT_METHOD(resumeSession)
+- (void)resumeSession
 {
     [AMAAppMetrica resumeSession];
 }
 
-RCT_EXPORT_METHOD(sendEventsBuffer)
+- (void)sendEventsBuffer
 {
     [AMAAppMetrica sendEventsBuffer];
 }
 
-RCT_EXPORT_METHOD(setLocation:(NSDictionary *)locationDict)
+- (void)setLocation:(NSDictionary *)locationDict
 {
     AMAAppMetrica.customLocation = [AMARNAppMetricaUtils locationForDictionary:locationDict];
 }
 
-RCT_EXPORT_METHOD(setLocationTracking:(BOOL)enabled)
+- (void)setLocationTracking:(BOOL)enabled
 {
     AMAAppMetrica.locationTrackingEnabled = enabled;
 }
 
-RCT_EXPORT_METHOD(setDataSendingEnabled:(BOOL)enabled)
+- (void)setDataSendingEnabled:(BOOL)enabled
 {
     [AMAAppMetrica setDataSendingEnabled:enabled];
 }
 
-RCT_EXPORT_METHOD(reportECommerce:(NSDictionary *)ecommerceDict)
+- (void)reportECommerce:(NSDictionary *)ecommerceDict
 {
     [AMAAppMetrica reportECommerce:[AMARNAppMetricaUtils ecommerceForDict:ecommerceDict] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(setUserProfileID:(NSString *)userProfileID)
+- (void)setUserProfileID:(NSString *)userProfileID
 {
     [AMAAppMetrica setUserProfileID:userProfileID];
 }
 
-RCT_EXPORT_METHOD(reportRevenue:(NSDictionary *)revenueDict)
+- (void)reportRevenue:(NSDictionary *)revenueDict
 {
     [AMAAppMetrica reportRevenue:[AMARNAppMetricaUtils revenueForDict:revenueDict] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(reportAdRevenue:(NSDictionary *)revenueDict)
+- (void)reportAdRevenue:(NSDictionary *)revenueDict
 {
     [AMAAppMetrica reportAdRevenue:[AMARNAppMetricaUtils adRevenueForDict:revenueDict] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(reportUserProfile:(NSDictionary *)userProfileDict)
+- (void)reportUserProfile:(NSDictionary *)userProfileDict
 {
     [AMAAppMetrica reportUserProfile:[AMARNAppMetricaUtils userProfileForDict:userProfileDict] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(putErrorEnvironmentValue:(NSString *)key:(NSString *)value)
+- (void)putErrorEnvironmentValue:(NSString *)key
+                           value:(NSString *)value
 {
     [[AMAAppMetricaCrashes crashes] setErrorEnvironmentValue:value forKey:key];
 }
 
-RCT_EXPORT_METHOD(reportExternalAttribution:(NSDictionary *)externalAttributionsDict)
+- (void)reportExternalAttribution:(NSDictionary *)externalAttributionsDict
 {
 
     NSString *sourceStr = externalAttributionsDict[@"source"];
@@ -143,7 +146,8 @@ RCT_EXPORT_METHOD(reportExternalAttribution:(NSDictionary *)externalAttributions
     }];
 }
 
-RCT_EXPORT_METHOD(reportErrorWithoutIdentifier:(NSString *)message:(NSDictionary *)error)
+- (void)reportErrorWithoutIdentifier:(NSString * _Nullable)message
+                               error:(NSDictionary *)error
 {
     AMAPluginErrorDetails *details = amarn_exceptionForDictionary(error);
     if (details.backtrace.count == 0) {
@@ -160,7 +164,7 @@ RCT_EXPORT_METHOD(reportErrorWithoutIdentifier:(NSString *)message:(NSDictionary
     }
 }
 
-RCT_EXPORT_METHOD(reportUnhandledException:(NSDictionary *)error)
+- (void)reportUnhandledException:(NSDictionary *)error
 {
     [[[AMAAppMetricaCrashes crashes] pluginExtension] reportUnhandledException:amarn_exceptionForDictionary(error)
                                                                      onFailure:^(NSError *error) {
@@ -168,45 +172,62 @@ RCT_EXPORT_METHOD(reportUnhandledException:(NSDictionary *)error)
     }];
 }
 
-RCT_EXPORT_METHOD(putAppEnvironmentValue:(NSString *)key:(NSString *)value)
+- (void)putAppEnvironmentValue:(NSString *)key
+                         value:(NSString *)value
 {
     [AMAAppMetrica setAppEnvironmentValue:value forKey:key];
 }
 
-RCT_EXPORT_METHOD(clearAppEnvironment)
+- (void)clearAppEnvironment
 {
     [AMAAppMetrica clearAppEnvironment];
 }
 
-RCT_EXPORT_METHOD(activateReporter:(NSDictionary *)configDict)
+- (void)activateReporter:(NSDictionary *)configDict
 {
     [AMAAppMetrica activateReporterWithConfiguration:[AMARNAppMetricaUtils reporterConfigurationForDictionary:configDict]];
 }
 
-RCT_EXPORT_METHOD(touchReporter:(NSString *)apiKey)
+- (void)touchReporter:(NSString *)apiKey
 {
     [AMAAppMetrica reporterForAPIKey:apiKey];
 }
 
-RCT_EXPORT_METHOD(getDeviceId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+- (void)getDeviceId:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
 {
     resolve([AMAAppMetrica deviceID]);
 }
 
-RCT_EXPORT_METHOD(getUuid:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
+- (void)getUuid:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
 {
     resolve([AMAAppMetrica UUID]);
 }
 
-RCT_EXPORT_METHOD(requestDeferredDeeplink:(RCTResponseSenderBlock)onFailure:(RCTResponseSenderBlock)onSuccess)
+- (void)requestDeferredDeeplink:(RCTResponseSenderBlock)onFailure
+                      onSuccess:(RCTResponseSenderBlock)onSuccess
 {
-    // It does nothing for iOS
+  // It does nothing for iOS
 }
 
-RCT_EXPORT_METHOD(requestDeferredDeeplinkParameters:(RCTResponseSenderBlock)onFailure:(RCTResponseSenderBlock)onSuccess)
+- (void)requestDeferredDeeplinkParameters:(RCTResponseSenderBlock)onFailure
+                                onSuccess:(RCTResponseSenderBlock)onSuccess
 {
-    // It does nothing for iOS
+  // It does nothing for iOS
 }
+
+- (id)constantsToExport {
+    return @{
+        @"DEVICE_ID_HASH_KEY": kAMADeviceIDHashKey,
+        @"DEVICE_ID_KEY": kAMADeviceIDKey,
+        @"UUID_KEY": kAMAUUIDKey
+    };
+}
+
+
+- (id)getConstants {
+    return [self constantsToExport];
+}
+
 
 - (NSObject *)wrap:(NSObject *)value
 {
@@ -214,6 +235,10 @@ RCT_EXPORT_METHOD(requestDeferredDeeplinkParameters:(RCTResponseSenderBlock)onFa
         return [NSNull null];
     }
     return value;
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {
+    return std::make_shared<facebook::react::NativeAppMetricaSpecJSI>(params);
 }
 
 @end

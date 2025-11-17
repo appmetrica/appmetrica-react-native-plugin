@@ -1,25 +1,8 @@
-import { NativeModules, Platform } from 'react-native';
 import type { UserProfile } from './userProfile';
 import type { AdRevenue, Revenue } from './revenue';
 import type { ECommerceEvent } from './ecommerce';
 import { AppMetricaError } from './error';
-
-const LINKING_ERROR =
-  `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
-
-const ReporterNativeModule = NativeModules.AppMetricaReporter
-  ? NativeModules.AppMetricaReporter
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+import ReporterNativeModule from './specs/NativeReporter';
 
 export interface IReporter {
   reportError(identifier: string, message?: string, _reason?: Error | Object): void;

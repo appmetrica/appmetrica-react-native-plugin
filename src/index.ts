@@ -1,32 +1,26 @@
-import { Linking, NativeModules, Platform } from 'react-native';
+import { Linking } from 'react-native';
+import AppMetricaNative from './specs/NativeAppMetrica';
 import type { ECommerceEvent } from './ecommerce';
 import type { AdRevenue, Revenue } from './revenue';
 import type { UserProfile } from './userProfile';
 import type { ExternalAttribution } from './externalAttribution';
 import { normalizeAdRevenue } from './utils';
 import { AppMetricaError } from './error';
-import { Reporter, type IReporter, type ReporterConfig } from './reporter';
+import { Reporter } from './reporter';
+import type { IReporter, ReporterConfig } from './reporter';
 import type {
   DeferredDeeplinkListener,
   DeferredDeeplinkParametersListener,
+  DeferredDeeplinkError
 } from './deferredDeeplink';
 
-const LINKING_ERROR =
-  `The package '@appmetrica/react-native-analytics' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
-
-const AppMetricaNative = NativeModules.AppMetrica
-  ? NativeModules.AppMetrica
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+import type {
+  AppMetricaConfig,
+  StartupParams,
+  StartupParamsReason,
+  StartupParamsCallback,
+  Location
+} from './types';
 
 var activated = false;
 
@@ -44,61 +38,7 @@ function appOpenTracking() {
   Linking.addEventListener('url', callback);
 }
 
-export type AppMetricaConfig = {
-  apiKey: string;
-  appVersion?: string;
-  crashReporting?: boolean;
-  firstActivationAsUpdate?: boolean;
-  location?: Location;
-  locationTracking?: boolean;
-  logs?: boolean;
-  sessionTimeout?: number;
-  statisticsSending?: boolean;
-  preloadInfo?: PreloadInfo;
-  maxReportsInDatabaseCount?: number;
-  nativeCrashReporting?: boolean; // Android only
-  activationAsSessionStart?: boolean; // iOS only
-  sessionsAutoTracking?: boolean; // iOS only
-  appOpenTrackingEnabled?: boolean;
-  userProfileID?: string;
-
-  errorEnvironment?: Record<string, string | undefined>;
-  appEnvironment?: Record<string, string | undefined>;
-  maxReportsCount?: number;
-  dispatchPeriodSeconds?: number;
-};
-
-export type PreloadInfo = {
-  trackingId: string;
-  additionalInfo?: Record<string, string>;
-};
-
-export type Location = {
-  latitude: number;
-  longitude: number;
-  altitude?: number;
-  accuracy?: number;
-  course?: number;
-  speed?: number;
-  timestamp?: number;
-};
-
-export type StartupParamsReason = 'UNKNOWN' | 'NETWORK' | 'INVALID_RESPONSE';
-
-export type StartupParams = {
-  deviceIdHash?: string;
-  deviceId?: string;
-  uuid?: string;
-};
-
-export type StartupParamsCallback = (
-  params?: StartupParams,
-  reason?: StartupParamsReason
-) => void;
-
-export const DEVICE_ID_HASH_KEY = 'appmetrica_device_id_hash';
-export const DEVICE_ID_KEY = 'appmetrica_device_id';
-export const UUID_KEY = 'appmetrica_uuid';
+export const { DEVICE_ID_HASH_KEY, DEVICE_ID_KEY, UUID_KEY } = AppMetricaNative.getConstants();
 
 export * from './ecommerce';
 export * from './revenue';
@@ -106,6 +46,7 @@ export * from './userProfile';
 export * from './externalAttribution';
 export type { IReporter, ReporterConfig } from './reporter';
 export * from './deferredDeeplink';
+export * from './types';
 
 export default class AppMetrica {
 
@@ -166,7 +107,10 @@ export default class AppMetrica {
     listener: StartupParamsCallback,
     identifiers: Array<string>
   ) {
-    AppMetricaNative.requestStartupParams(identifiers, listener);
+    const adapter = (params: Object, reason?: Object) => {
+      listener(params as StartupParams, reason as StartupParamsReason);
+    };
+    AppMetricaNative.requestStartupParams(adapter, identifiers);
   }
 
   static resumeSession() {
@@ -249,8 +193,12 @@ export default class AppMetrica {
   }
 
   static requestDeferredDeeplink(listener: DeferredDeeplinkListener) {
+    const adaptedOnFailure = (error: string, referrer?: string) => {
+      listener.onFailure(error as DeferredDeeplinkError, referrer);
+    };
+
     AppMetricaNative.requestDeferredDeeplink(
-      listener.onFailure,
+      adaptedOnFailure,
       listener.onSuccess
     );
   }
@@ -258,9 +206,15 @@ export default class AppMetrica {
   static requestDeferredDeeplinkParameters(
     listener: DeferredDeeplinkParametersListener
   ) {
+    const adaptedOnFailure = (error: string, referrer?: string) => {
+      listener.onFailure(error as DeferredDeeplinkError, referrer);
+    };
+    const adaptedOnSuccess = (parameters: Object) => {
+      listener.onSuccess(parameters as Record<string, string>);
+    };
     AppMetricaNative.requestDeferredDeeplinkParameters(
-      listener.onFailure,
-      listener.onSuccess
+      adaptedOnFailure,
+      adaptedOnSuccess
     );
   }
 }

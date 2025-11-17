@@ -2,28 +2,40 @@ package io.appmetrica.analytics.reactnative;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.react.ReactPackage;
+import com.facebook.react.BaseReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.ViewManager;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class AppMetricaPackage implements ReactPackage {
-    @NonNull
+public class AppMetricaPackage extends BaseReactPackage {
+
     @Override
-    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
-        List<NativeModule> modules = new ArrayList<>();
-        modules.add(new AppMetricaModule(reactContext));
-        modules.add(new ReporterModule(reactContext));
-        return modules;
+    public NativeModule getModule(String name, @NonNull ReactApplicationContext reactContext) {
+        if (name.equals(AppMetricaModule.NAME)) {
+            return new AppMetricaModule(reactContext);
+        } else if (name.equals(ReporterModule.NAME)) {
+            return new ReporterModule(reactContext);
+        } else {
+            return null;
+        }
     }
 
     @NonNull
     @Override
-    public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+    public ReactModuleInfoProvider getReactModuleInfoProvider() {
+        return new ReactModuleInfoProvider() {
+            @NonNull
+            @Override
+            public Map<String, ReactModuleInfo> getReactModuleInfos() {
+                Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+                moduleInfos.put(AppMetricaModule.NAME, new ReactModuleInfo(AppMetricaModule.NAME, AppMetricaModule.NAME, false, false, false, true));
+                moduleInfos.put(ReporterModule.NAME, new ReactModuleInfo(ReporterModule.NAME, ReporterModule.NAME, false, false, false, true));
+                return moduleInfos;
+            }
+        };
     }
 }

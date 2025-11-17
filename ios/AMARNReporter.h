@@ -1,6 +1,10 @@
 
-#import <React/RCTBridgeModule.h>
+#import <AppMetricaNativeSpec/AppMetricaNativeSpec.h>
 
-@interface AMARNReporter : NSObject <RCTBridgeModule>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface AMARNReporter : NSObject <NativeReporterSpec>
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -13,7 +13,6 @@ import io.appmetrica.analytics.AppMetricaConfig;
 import io.appmetrica.analytics.PreloadInfo;
 import io.appmetrica.analytics.ReporterConfig;
 import io.appmetrica.analytics.Revenue;
-import io.appmetrica.analytics.StartupParamsCallback;
 import io.appmetrica.analytics.profile.UserProfile;
 import io.appmetrica.analytics.ecommerce.ECommerceAmount;
 import io.appmetrica.analytics.ecommerce.ECommerceCartItem;
@@ -368,24 +367,6 @@ abstract class Utils {
     }
 
     @NonNull
-    static List<String> toStartupKeyList(@NonNull ReadableArray keys) {
-        ArrayList<String> startupKeys = new ArrayList<>();
-        for (int i = 0; i < keys.size(); i++) {
-            String item = keys.getString(i);
-            if (item.equals("appmetrica_device_id_hash")) {
-                startupKeys.add(StartupParamsCallback.APPMETRICA_DEVICE_ID_HASH);
-            }
-            if (item.equals("appmetrica_device_id")) {
-                startupKeys.add(StartupParamsCallback.APPMETRICA_DEVICE_ID);
-            }
-            if (item.equals("appmetrica_uuid")) {
-                startupKeys.add(StartupParamsCallback.APPMETRICA_UUID);
-            }
-        }
-        return startupKeys;
-    }
-
-    @NonNull
     static Revenue toRevenue(@NonNull ReadableMap revenueMap) {
         long price = (long) (revenueMap.getDouble("price") * 1000000);
         String currency = revenueMap.getString("currency");
@@ -504,15 +485,14 @@ abstract class Utils {
         return newMap;
     }
 
-    @Nullable
-    private static List<String> toListOfStrings(@Nullable ReadableArray oldArray) {
+    @NonNull
+    static List<String> toListOfStrings(@Nullable ReadableArray oldArray) {
+        List<String> newArray = new ArrayList<>();
         if (oldArray == null) {
-            return null;
+            return newArray;
         }
-        List<Object> list = oldArray.toArrayList();
-        List<String> newArray = new ArrayList<String>(list.size());
-        for (Object object : list) {
-            newArray.add(Objects.toString(object));
+        for (int i = 0; i < oldArray.size(); i++) {
+            newArray.add(oldArray.getString(i));
         }
         return newArray;
     }

@@ -10,18 +10,18 @@
 
 RCT_EXPORT_MODULE(AppMetricaReporter)
 
-RCT_EXPORT_METHOD(reportError:(NSString *)apiKey:(NSString *)identifier:(NSString *)message:(NSDictionary *)_reason)
+- (void)reportError:(nonnull NSString *)apiKey identifier:(nonnull NSString *)identifier message:(nonnull NSString *)message error:(nonnull NSDictionary *)error
 {
     id<AMAAppMetricaCrashReporting> reporter = [[AMAAppMetricaCrashes crashes] reporterForAPIKey:apiKey];
     [[reporter pluginExtension] reportErrorWithIdentifier:identifier
                                                   message:message
-                                                  details:amarn_exceptionForDictionary(_reason)
+                                                  details:amarn_exceptionForDictionary(error)
                                                 onFailure:^(NSError *error) {
         NSLog(@"Failed to report error to AppMetrica: %@", [error localizedDescription]);
     }];
 }
 
-RCT_EXPORT_METHOD(reportErrorWithoutIdentifier:(NSString *)apiKey:(NSString *)message:(NSDictionary *)error)
+- (void)reportErrorWithoutIdentifier:(nonnull NSString *)apiKey message:(NSString * _Nullable)message error:(nonnull NSDictionary *)error
 {
     id<AMAAppMetricaCrashReporting> reporter = [[AMAAppMetricaCrashes crashes] reporterForAPIKey:apiKey];
     AMAPluginErrorDetails *details = amarn_exceptionForDictionary(error);
@@ -39,7 +39,7 @@ RCT_EXPORT_METHOD(reportErrorWithoutIdentifier:(NSString *)apiKey:(NSString *)me
     }
 }
 
-RCT_EXPORT_METHOD(reportUnhandledException:(NSString *)apiKey:(NSDictionary *)error)
+- (void)reportUnhandledException:(nonnull NSString *)apiKey error:(nonnull NSDictionary *)error
 {
     id<AMAAppMetricaCrashReporting> reporter = [[AMAAppMetricaCrashes crashes] reporterForAPIKey:apiKey];
     [[reporter pluginExtension] reportUnhandledException:amarn_exceptionForDictionary(error)
@@ -48,7 +48,7 @@ RCT_EXPORT_METHOD(reportUnhandledException:(NSString *)apiKey:(NSDictionary *)er
     }];
 }
 
-RCT_EXPORT_METHOD(reportEvent:(NSString *)apiKey:(NSString *)eventName:(NSDictionary *)attributes)
+- (void)reportEvent:(nonnull NSString *)apiKey eventName:(nonnull NSString *)eventName attributes:(nonnull NSDictionary *)attributes
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     if (attributes == nil) {
@@ -62,70 +62,74 @@ RCT_EXPORT_METHOD(reportEvent:(NSString *)apiKey:(NSString *)eventName:(NSDictio
     }
 }
 
-RCT_EXPORT_METHOD(pauseSession:(NSString *)apiKey)
+- (void)pauseSession:(NSString *)apiKey
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter pauseSession];
 }
 
-RCT_EXPORT_METHOD(resumeSession:(NSString *)apiKey)
+- (void)resumeSession:(NSString *)apiKey
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter resumeSession];
 }
 
-RCT_EXPORT_METHOD(sendEventsBuffer:(NSString *)apiKey)
+- (void)sendEventsBuffer:(NSString *)apiKey
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter sendEventsBuffer];
 }
 
-RCT_EXPORT_METHOD(putAppEnvironmentValue:(NSString *)apiKey:(NSString *)key:(NSString *)value)
+- (void)putAppEnvironmentValue:(nonnull NSString *)apiKey key:(nonnull NSString *)key value:(nonnull NSString *)value
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter setAppEnvironmentValue:value forKey:key];
 }
 
-RCT_EXPORT_METHOD(clearAppEnvironment:(NSString *)apiKey)
+- (void)clearAppEnvironment:(NSString *)apiKey
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter clearAppEnvironment];
 }
 
-RCT_EXPORT_METHOD(setUserProfileID:(NSString *)apiKey:(NSString *)userProfileID)
+- (void)setUserProfileID:(nonnull NSString *)apiKey userProfileID:(nonnull NSString *)userProfileID
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter setUserProfileID:userProfileID];
 }
 
-RCT_EXPORT_METHOD(setDataSendingEnabled:(NSString *)apiKey:(BOOL)enabled)
+- (void)setDataSendingEnabled:(nonnull NSString *)apiKey enabled:(BOOL)enabled
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
     [reporter setDataSendingEnabled:enabled];
 }
 
-RCT_EXPORT_METHOD(reportUserProfile:(NSString *)apiKey:(NSDictionary *)userProfileDict)
+- (void)reportUserProfile:(nonnull NSString *)apiKey userProfile:(nonnull NSDictionary *)userProfile
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
-    [reporter reportUserProfile:[AMARNAppMetricaUtils userProfileForDict:userProfileDict] onFailure:nil];
+    [reporter reportUserProfile:[AMARNAppMetricaUtils userProfileForDict:userProfile] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(reportRevenue:(NSString *)apiKey:(NSDictionary *)revenueDict)
+- (void)reportRevenue:(nonnull NSString *)apiKey revenue:(nonnull NSDictionary *)revenue
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
-    [reporter reportRevenue:[AMARNAppMetricaUtils revenueForDict:revenueDict] onFailure:nil];
+    [reporter reportRevenue:[AMARNAppMetricaUtils revenueForDict:revenue] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(reportAdRevenue:(NSString *)apiKey:(NSDictionary *)revenueDict)
+- (void)reportAdRevenue:(nonnull NSString *)apiKey adRevenue:(nonnull NSDictionary *)adRevenue
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
-    [reporter reportAdRevenue:[AMARNAppMetricaUtils adRevenueForDict:revenueDict] onFailure:nil];
+    [reporter reportAdRevenue:[AMARNAppMetricaUtils adRevenueForDict:adRevenue] onFailure:nil];
 }
 
-RCT_EXPORT_METHOD(reportECommerce:(NSString *)apiKey:(NSDictionary *)ecommerceDict)
+- (void)reportECommerce:(nonnull NSString *)apiKey event:(nonnull NSDictionary *)event
 {
     id<AMAAppMetricaReporting> reporter = [AMAAppMetrica reporterForAPIKey:apiKey];
-    [reporter reportECommerce:[AMARNAppMetricaUtils ecommerceForDict:ecommerceDict] onFailure:nil];
+    [reporter reportECommerce:[AMARNAppMetricaUtils ecommerceForDict:event] onFailure:nil];
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {
+    return std::make_shared<facebook::react::NativeReporterSpecJSI>(params);
 }
 
 @end
