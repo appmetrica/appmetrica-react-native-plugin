@@ -17,14 +17,15 @@ RCT_EXPORT_MODULE(AppMetrica)
     [AMAAppMetrica activateWithConfiguration:[AMARNAppMetricaUtils configurationForDictionary:configDict]];
 }
 
-- (void)getLibraryApiLevel:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
+- (NSNumber *)getLibraryApiLevel
 {
     // It does nothing for iOS
+    return 0;
 }
 
-- (void)getLibraryVersion:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
+- (NSString *)getLibraryVersion
 {
-    resolve([AMAAppMetrica libraryVersion]);
+    return [AMAAppMetrica libraryVersion];
 }
 
 - (void)pauseSession
@@ -193,14 +194,14 @@ RCT_EXPORT_MODULE(AppMetrica)
     [AMAAppMetrica reporterForAPIKey:apiKey];
 }
 
-- (void)getDeviceId:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
+- (NSString *)getDeviceId
 {
-    resolve([AMAAppMetrica deviceID]);
+    return [AMAAppMetrica deviceID];
 }
 
-- (void)getUuid:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject
+- (NSString *)getUuid
 {
-    resolve([AMAAppMetrica UUID]);
+    return [AMAAppMetrica UUID];
 }
 
 - (void)requestDeferredDeeplink:(RCTResponseSenderBlock)onFailure

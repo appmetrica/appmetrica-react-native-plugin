@@ -63,11 +63,11 @@ export default class AppMetrica {
   }
 
   // Android only
-  static async getLibraryApiLevel(): Promise<number> {
+  static getLibraryApiLevel(): number {
     return AppMetricaNative.getLibraryApiLevel();
   }
 
-  static async getLibraryVersion(): Promise<string> {
+  static getLibraryVersion(): string {
     return AppMetricaNative.getLibraryVersion();
   }
 
@@ -184,11 +184,11 @@ export default class AppMetrica {
     AppMetricaNative.activateReporter(config);
   }
 
-  static getDeviceId(): Promise<string | null> {
+  static getDeviceId(): string | null {
     return AppMetricaNative.getDeviceId();
   }
 
-  static getUuid(): Promise<string | null> {
+  static getUuid(): string | null {
     return AppMetricaNative.getUuid();
   }
 

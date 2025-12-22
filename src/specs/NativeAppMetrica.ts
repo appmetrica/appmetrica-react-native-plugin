@@ -37,10 +37,10 @@ export interface Spec extends TurboModule {
     onFailure: (error: string, referrer?: string) => void,
     onSuccess: (parameters: Object) => void
   ): void;
-  getDeviceId(): Promise<string | null>;
-  getUuid(): Promise<string | null>;
-  getLibraryVersion(): Promise<string>;
-  getLibraryApiLevel(): Promise<number>;
+  getDeviceId(): string | null;
+  getUuid(): string | null;
+  getLibraryVersion(): string;
+  getLibraryApiLevel(): number;
 
   readonly getConstants: () => {
     DEVICE_ID_HASH_KEY: string;

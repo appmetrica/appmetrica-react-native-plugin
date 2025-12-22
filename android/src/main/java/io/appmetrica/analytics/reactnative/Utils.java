@@ -319,7 +319,7 @@ abstract class Utils {
     static ECommerceEvent toECommerceEvent(@NonNull ReadableMap ecommerceEventMap) {
         String type = ecommerceEventMap.getString("ecommerceEvent");
         if (type == null) return null;
-        if (type.equals("showSceenEvent")) {
+        if (type.equals("showScreenEvent")) {
             ReadableMap screenMap = ecommerceEventMap.getMap("ecommerceScreen");
             if (screenMap != null) {
                 return ECommerceEvent.showScreenEvent(toECommerceScreen(screenMap));

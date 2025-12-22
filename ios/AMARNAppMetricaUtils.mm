@@ -246,7 +246,7 @@
         return nil;
     }
     NSString *type = ecommerceDict[@"ecommerceEvent"];
-    if ([type isEqualToString:@"showSceenEvent"]) {
+    if ([type isEqualToString:@"showScreenEvent"]) {
         NSDictionary *screenDict = ecommerceDict[@"ecommerceScreen"];
         AMAECommerceScreen *screen = [self ecommerceScreenForDict:screenDict];
         AMAECommerce *event = [AMAECommerce showScreenEventWithScreen:screen];

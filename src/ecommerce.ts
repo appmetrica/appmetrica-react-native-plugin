@@ -53,7 +53,7 @@ export type ECommerceOrder = {
 };
 
 export type ECommerceEventType =
-  | 'showSceenEvent'
+  | 'showScreenEvent'
   | 'showProductCardEvent'
   | 'showProductDetailsEvent'
   | 'addCartItemEvent'
@@ -73,7 +73,7 @@ export interface ECommerceEvent {
 export class ECommerce {
   static showScreenEvent(screen: ECommerceScreen): ECommerceEvent {
     return {
-      ecommerceEvent: 'showSceenEvent',
+      ecommerceEvent: 'showScreenEvent',
       ecommerceScreen: normalizeECommerceScreen(screen),
     };
   }

@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
@@ -50,13 +49,13 @@ public class AppMetricaModule extends NativeAppMetricaSpec {
     }
 
     @Override
-    public void getLibraryApiLevel(Promise promise) {
-        promise.resolve(AppMetrica.getLibraryApiLevel());
+    public double getLibraryApiLevel() {
+        return AppMetrica.getLibraryApiLevel();
     }
 
     @Override
-    public void getLibraryVersion(Promise promise) {
-        promise.resolve(AppMetrica.getLibraryVersion());
+    public String getLibraryVersion() {
+        return AppMetrica.getLibraryVersion();
     }
 
     @Override
@@ -198,13 +197,13 @@ public class AppMetricaModule extends NativeAppMetricaSpec {
     }
 
     @Override
-    public void getDeviceId(Promise promise) {
-        promise.resolve(AppMetrica.getDeviceId(reactContext));
+    public String getDeviceId() {
+        return AppMetrica.getDeviceId(reactContext);
     }
 
     @Override
-    public void getUuid(Promise promise) {
-        promise.resolve(AppMetrica.getUuid(reactContext));
+    public String getUuid() {
+        return AppMetrica.getUuid(reactContext);
     }
     @Override
     public void requestDeferredDeeplink(Callback failureCallback, Callback successCallback) {
