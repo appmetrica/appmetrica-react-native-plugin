@@ -26,7 +26,7 @@ export interface Spec extends TurboModule {
   activateReporter(config: Object): void;
   touchReporter(apiKey: string): void;
   requestStartupParams(
-    listener: (params: Object, reason: Object) => void,
+    listener: (params?: Object, reason?: Object) => void,
     identifiers: Array<string>
   ): void;
   requestDeferredDeeplink(

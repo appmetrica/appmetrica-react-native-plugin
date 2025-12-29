@@ -9,17 +9,14 @@
     if (resultDict == nil) {
         return nil;
     }
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-    if (resultDict[kAMADeviceIDHashKey] != nil) {
-        [result setValue:resultDict[kAMADeviceIDHashKey] forKey:@"deviceIdHash"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    for (NSString *key in resultDict) {
+        parameters[key] = @{
+            @"id": resultDict[key],
+            @"status": @"OK",
+        };
     }
-    if (resultDict[kAMADeviceIDKey] != nil) {
-        [result setValue:resultDict[kAMADeviceIDKey] forKey:@"deviceId"];
-    }
-    if (resultDict[kAMAUUIDKey] != nil) {
-        [result setValue:resultDict[kAMAUUIDKey] forKey:@"uuid"];
-    }
-    return result;
+    return parameters;
 }
 
 + (NSString *)stringFromRequestStartupParamsError:(NSError *)error

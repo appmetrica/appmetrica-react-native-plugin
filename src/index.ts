@@ -16,11 +16,12 @@ import type {
 
 import type {
   AppMetricaConfig,
-  StartupParams,
   StartupParamsReason,
   StartupParamsCallback,
-  Location
+  Location,
+  StartupParamsItem
 } from './types';
+import { StartupParams } from './types';
 
 var activated = false;
 
@@ -37,8 +38,6 @@ function appOpenTracking() {
   getUrlAsync();
   Linking.addEventListener('url', callback);
 }
-
-export const { DEVICE_ID_HASH_KEY, DEVICE_ID_KEY, UUID_KEY } = AppMetricaNative.getConstants();
 
 export * from './ecommerce';
 export * from './revenue';
@@ -107,8 +106,9 @@ export default class AppMetrica {
     listener: StartupParamsCallback,
     identifiers: Array<string>
   ) {
-    const adapter = (params: Object, reason?: Object) => {
-      listener(params as StartupParams, reason as StartupParamsReason);
+    const adapter = (params?: Object, reason?: Object) => {
+      const startupParams = params ? new StartupParams(params as Record<string, StartupParamsItem>) : undefined;
+      listener(startupParams, reason as StartupParamsReason);
     };
     AppMetricaNative.requestStartupParams(adapter, identifiers);
   }

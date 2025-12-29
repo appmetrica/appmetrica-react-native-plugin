@@ -205,6 +205,7 @@ public class AppMetricaModule extends NativeAppMetricaSpec {
     public String getUuid() {
         return AppMetrica.getUuid(reactContext);
     }
+
     @Override
     public void requestDeferredDeeplink(Callback failureCallback, Callback successCallback) {
         AppMetrica.requestDeferredDeeplink(new ReactNativeDeferredDeeplinkListener(failureCallback, successCallback));

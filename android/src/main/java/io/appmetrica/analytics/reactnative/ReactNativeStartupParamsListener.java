@@ -3,10 +3,14 @@ package io.appmetrica.analytics.reactnative;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
+
+import java.util.Map;
+
 import io.appmetrica.analytics.StartupParamsCallback;
+import io.appmetrica.analytics.StartupParamsItem;
 
 public class ReactNativeStartupParamsListener implements StartupParamsCallback {
 
@@ -24,15 +28,27 @@ public class ReactNativeStartupParamsListener implements StartupParamsCallback {
 
     @Override
     public void onRequestError(@NonNull Reason reason, @Nullable Result result) {
-        listener.invoke(null, reason.value);
+        listener.invoke(toParamsMap(result), reason.value);
+    }
+
+    private static WritableMap convertParametersItem(StartupParamsItem paramsItem) {
+        WritableMap itemMap = Arguments.createMap();
+        if (paramsItem.getId() != null) {
+            itemMap.putString("id", paramsItem.getId());
+        }
+        if (paramsItem.getErrorDetails() != null) {
+            itemMap.putString("errorDetails", paramsItem.getErrorDetails());
+        }
+        itemMap.putString("status", paramsItem.getStatus().name());
+        return itemMap;
     }
 
     private static WritableMap toParamsMap(@Nullable Result result){
         if (result == null) return null;
-        WritableMap map = new WritableNativeMap();
-        map.putString("deviceId", result.deviceId);
-        map.putString("deviceIdHash", result.deviceIdHash);
-        map.putString("uuid", result.uuid);
-        return map;
+        WritableMap paramsMap = Arguments.createMap();
+        for (Map.Entry<String, StartupParamsItem> entry : result.parameters.entrySet()) {
+            paramsMap.putMap(entry.getKey(), convertParametersItem(entry.getValue()));
+        }
+        return paramsMap;
     }
 }

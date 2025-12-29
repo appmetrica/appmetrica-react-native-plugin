@@ -2,12 +2,10 @@ package io.appmetrica.analytics.reactnative;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
 
 import io.appmetrica.analytics.DeferredDeeplinkListener;
-import io.appmetrica.analytics.StartupParamsCallback;
 
 public class ReactNativeDeferredDeeplinkListener implements DeferredDeeplinkListener {
 
