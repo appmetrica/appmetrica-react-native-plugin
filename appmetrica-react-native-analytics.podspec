@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
-  s.dependency "AppMetricaAnalytics", "5.15.0"
+  s.dependency "AppMetricaAnalytics", "5.16.0"
 
   install_modules_dependencies(s)
 end
