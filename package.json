@@ -56,10 +56,10 @@
   },
   "devDependencies": {
     "@react-native/eslint-config": "^0.76.0",
-    "@types/jest": "^29.6.3",
+    "@types/jest": "^29.5.12",
     "@types/jsdom": "^21.1.7",
-    "@types/react": "^18.2.6",
     "@types/node": "^22.10.0",
+    "@types/react": "^18.2.6",
     "del-cli": "^5.1.0",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
@@ -68,6 +68,7 @@
     "prettier": "^3.0.3",
     "react": "18.3.1",
     "react-native": "0.76.0",
+    "react-native-builder-bob": "^0.40.17",
     "typescript": "^5.2.2"
   },
   "resolutions": {
