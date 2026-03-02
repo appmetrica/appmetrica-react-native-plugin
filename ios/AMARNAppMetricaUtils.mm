@@ -55,6 +55,15 @@
     if (configDict[@"dispatchPeriodSeconds"] != nil) {
         configuration.dispatchPeriod = [configDict[@"dispatchPeriodSeconds"] unsignedIntegerValue];
     }
+    if (configDict[@"appBuildNumber"] != nil) {
+        configuration.appBuildNumber = [configDict[@"appBuildNumber"] stringValue];
+    }
+    if (configDict[@"revenueAutoTrackingEnabled"] != nil) {
+        configuration.revenueAutoTrackingEnabled = [configDict[@"revenueAutoTrackingEnabled"] boolValue];
+    }
+    if (configDict[@"advIdentifiersTracking"] != nil) {
+        configuration.advertisingIdentifierTrackingEnabled = [configDict[@"advIdentifiersTracking"] boolValue];
+    }
 
     return configuration;
 }

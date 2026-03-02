@@ -99,6 +99,18 @@ abstract class Utils {
         if (configMap.hasKey("dispatchPeriodSeconds")) {
             builder.withDispatchPeriodSeconds(configMap.getInt("dispatchPeriodSeconds"));
         }
+        if (configMap.hasKey("appBuildNumber")) {
+            builder.withAppBuildNumber(configMap.getInt("appBuildNumber"));
+        }
+        if (configMap.hasKey("revenueAutoTrackingEnabled")) {
+            builder.withRevenueAutoTrackingEnabled(configMap.getBoolean("revenueAutoTrackingEnabled"));
+        }
+        if (configMap.hasKey("deviceType")) {
+            builder.withDeviceType(configMap.getString("deviceType"));
+        }
+        if (configMap.hasKey("advIdentifiersTracking")) {
+            builder.withAdvIdentifiersTracking(configMap.getBoolean("advIdentifiersTracking"));
+        }
 
         return builder.build();
     }

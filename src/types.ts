@@ -21,6 +21,10 @@ export type AppMetricaConfig = {
   appEnvironment?: Record<string, string | undefined>;
   maxReportsCount?: number;
   dispatchPeriodSeconds?: number;
+  appBuildNumber?: number;
+  revenueAutoTrackingEnabled?: boolean;
+  deviceType?: string;
+  advIdentifiersTracking?: boolean;
 };
 
 export type PreloadInfo = {
@@ -93,3 +97,10 @@ export type StartupParamsItemStatus =
   | 'NETWORK_ERROR'
   | 'PROVIDER_UNAVAILABLE'
   | 'UNKNOWN_ERROR';
+
+export enum PredefinedDeviceTypes {
+  PHONE = "phone",
+  TABLET = "tablet",
+  TV = "tv",
+  CAR = "car"
+}
