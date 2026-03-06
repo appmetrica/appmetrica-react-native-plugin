@@ -18,7 +18,7 @@ export function normalizeECommerceOrder(order: ECommerceOrder): ECommerceOrder {
   if (order.payload instanceof Map) {
     newOrder.payload = convertMap(order.payload);
   }
-  newOrder.products = order.products.map(normalizeECommerceCartItem)
+  newOrder.products = order.products.map(normalizeECommerceCartItem);
   return newOrder;
 }
 
@@ -48,13 +48,15 @@ export function normalizeECommerceReferrer(
     return undefined;
   }
   const newReferrer = { ...referrer } as ECommerceReferrer;
-  if (referrer.screen != undefined) {
+  if (referrer.screen !== undefined) {
     newReferrer.screen = normalizeECommerceScreen(referrer.screen);
   }
   return newReferrer;
 }
 
-export function normalizeECommerceScreen(screen: ECommerceScreen): ECommerceScreen {
+export function normalizeECommerceScreen(
+  screen: ECommerceScreen
+): ECommerceScreen {
   const newScreen = { ...screen } as ECommerceScreen;
   if (screen.payload instanceof Map) {
     newScreen.payload = convertMap(screen.payload);

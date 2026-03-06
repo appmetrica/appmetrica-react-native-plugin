@@ -47,7 +47,7 @@ function parseStackTrace(
       }
     });
     return array;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     return undefined;
   }

@@ -1,4 +1,8 @@
-export type DeferredDeeplinkError = 'NO_REFERRER' | 'NOT_A_FIRST_LAUNCH' | 'PARSE_ERROR' | 'UNKNOWN';
+export type DeferredDeeplinkError =
+  | 'NO_REFERRER'
+  | 'NOT_A_FIRST_LAUNCH'
+  | 'PARSE_ERROR'
+  | 'UNKNOWN';
 
 export interface DeferredDeeplinkListener {
   onSuccess: (deeplink: string) => void;

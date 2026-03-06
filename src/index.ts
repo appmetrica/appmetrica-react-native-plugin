@@ -11,7 +11,7 @@ import type { IReporter, ReporterConfig } from './reporter';
 import type {
   DeferredDeeplinkListener,
   DeferredDeeplinkParametersListener,
-  DeferredDeeplinkError
+  DeferredDeeplinkError,
 } from './deferredDeeplink';
 
 import type {
@@ -19,7 +19,7 @@ import type {
   StartupParamsReason,
   StartupParamsCallback,
   Location,
-  StartupParamsItem
+  StartupParamsItem,
 } from './types';
 import { StartupParams } from './types';
 
@@ -48,7 +48,6 @@ export * from './deferredDeeplink';
 export * from './types';
 
 export default class AppMetrica {
-
   private static reporters: Map<string, Reporter> = new Map();
 
   static activate(config: AppMetricaConfig) {
@@ -86,7 +85,9 @@ export default class AppMetrica {
     AppMetricaNative.reportError(
       identifier,
       message,
-      _reason instanceof Error ? AppMetricaError.withError(_reason) : AppMetricaError.withObject(_reason)
+      _reason instanceof Error
+        ? AppMetricaError.withError(_reason)
+        : AppMetricaError.withObject(_reason)
     );
   }
 
@@ -94,8 +95,14 @@ export default class AppMetrica {
     AppMetricaNative.reportUnhandledException(AppMetricaError.withError(error));
   }
 
-  static reportErrorWithoutIdentifier(message: string | undefined, error: Error) {
-    AppMetricaNative.reportErrorWithoutIdentifier(message, AppMetricaError.withError(error));
+  static reportErrorWithoutIdentifier(
+    message: string | undefined,
+    error: Error
+  ) {
+    AppMetricaNative.reportErrorWithoutIdentifier(
+      message,
+      AppMetricaError.withError(error)
+    );
   }
 
   static reportEvent(eventName: string, attributes?: Record<string, any>) {
@@ -107,7 +114,9 @@ export default class AppMetrica {
     identifiers: Array<string>
   ) {
     const adapter = (params?: Object, reason?: Object) => {
-      const startupParams = params ? new StartupParams(params as Record<string, StartupParamsItem>) : undefined;
+      const startupParams = params
+        ? new StartupParams(params as Record<string, StartupParamsItem>)
+        : undefined;
       listener(startupParams, reason as StartupParamsReason);
     };
     AppMetricaNative.requestStartupParams(adapter, identifiers);

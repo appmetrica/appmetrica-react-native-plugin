@@ -5,7 +5,11 @@ import { AppMetricaError } from './error';
 import ReporterNativeModule from './specs/NativeReporter';
 
 export interface IReporter {
-  reportError(identifier: string, message?: string, _reason?: Error | Object): void;
+  reportError(
+    identifier: string,
+    message?: string,
+    _reason?: Error | Object
+  ): void;
   reportErrorWithoutIdentifier(message: string | undefined, error: Error): void;
   reportUnhandledException(error: Error): void;
   reportEvent(eventName: string, attributes?: Record<string, any>): void;
@@ -23,7 +27,6 @@ export interface IReporter {
 }
 
 export class Reporter implements IReporter {
-
   private apiKey: string;
 
   constructor(apiKey: string) {
@@ -35,16 +38,25 @@ export class Reporter implements IReporter {
       this.apiKey,
       identifier,
       message,
-      _reason instanceof Error ? AppMetricaError.withError(_reason) : AppMetricaError.withObject(_reason)
+      _reason instanceof Error
+        ? AppMetricaError.withError(_reason)
+        : AppMetricaError.withObject(_reason)
     );
   }
 
   reportErrorWithoutIdentifier(message: string | undefined, error: Error) {
-    ReporterNativeModule.reportErrorWithoutIdentifier(this.apiKey, message, AppMetricaError.withError(error));
+    ReporterNativeModule.reportErrorWithoutIdentifier(
+      this.apiKey,
+      message,
+      AppMetricaError.withError(error)
+    );
   }
 
   reportUnhandledException(error: Error) {
-    ReporterNativeModule.reportUnhandledException(this.apiKey, AppMetricaError.withError(error));
+    ReporterNativeModule.reportUnhandledException(
+      this.apiKey,
+      AppMetricaError.withError(error)
+    );
   }
 
   reportEvent(eventName: string, attributes?: Record<string, any>) {
@@ -92,7 +104,7 @@ export class Reporter implements IReporter {
   }
 
   reportRevenue(revenue: Revenue) {
-    ReporterNativeModule.reportRevenue(this.apiKey, revenue)
+    ReporterNativeModule.reportRevenue(this.apiKey, revenue);
   }
 }
 
@@ -106,4 +118,4 @@ export type ReporterConfig = {
   dispatchPeriodSeconds?: number;
   userProfileID?: string;
   maxReportsCount?: number;
-}
+};

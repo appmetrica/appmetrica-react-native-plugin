@@ -12,8 +12,17 @@ export interface Spec extends TurboModule {
   reportRevenue(apiKey: string, revenue: Object): void;
   reportAdRevenue(apiKey: string, adRevenue: Object): void;
   reportUserProfile(apiKey: string, userProfile: Object): void;
-  reportError(apiKey: string, identifier: string, message?: string, error?: Object): void;
-  reportErrorWithoutIdentifier(apiKey: string, message: string | undefined, error: Object): void;
+  reportError(
+    apiKey: string,
+    identifier: string,
+    message?: string,
+    error?: Object
+  ): void;
+  reportErrorWithoutIdentifier(
+    apiKey: string,
+    message: string | undefined,
+    error: Object
+  ): void;
   reportUnhandledException(apiKey: string, error: Object): void;
   putAppEnvironmentValue(apiKey: string, key: string, value?: string): void;
   clearAppEnvironment(apiKey: string): void;

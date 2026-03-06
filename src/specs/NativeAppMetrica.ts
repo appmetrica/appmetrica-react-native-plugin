@@ -18,7 +18,10 @@ export interface Spec extends TurboModule {
   reportUserProfile(userProfile: Object): void;
   reportExternalAttribution(attribution: Object): void;
   reportError(identifier: string, message?: string, error?: Object): void;
-  reportErrorWithoutIdentifier(message: string | undefined, error: Object): void;
+  reportErrorWithoutIdentifier(
+    message: string | undefined,
+    error: Object
+  ): void;
   reportUnhandledException(error: Object): void;
   putAppEnvironmentValue(key: string, value?: string): void;
   putErrorEnvironmentValue(key: string, value?: string): void;

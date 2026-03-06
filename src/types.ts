@@ -45,8 +45,7 @@ export type Location = {
 export type StartupParamsReason = 'UNKNOWN' | 'NETWORK' | 'INVALID_RESPONSE';
 
 export class StartupParams {
-
-  private static constants = AppMetricaNative.getConstants()
+  private static constants = AppMetricaNative.getConstants();
   static readonly DEVICE_ID_HASH_KEY = this.constants.DEVICE_ID_HASH_KEY;
   static readonly DEVICE_ID_KEY = this.constants.DEVICE_ID_KEY;
   static readonly UUID_KEY = this.constants.UUID_KEY;
@@ -55,15 +54,15 @@ export class StartupParams {
   readonly deviceId?: string;
   readonly uuid?: string;
 
-  constructor(
-    readonly params?: Record<string, StartupParamsItem>
-  ) {
-      if (params) {
-        this.deviceIdHash = this.parameterForKey(StartupParams.DEVICE_ID_HASH_KEY);
-        this.deviceId = this.parameterForKey(StartupParams.DEVICE_ID_KEY);
-        this.uuid = this.parameterForKey(StartupParams.UUID_KEY);
-      }
+  constructor(readonly params?: Record<string, StartupParamsItem>) {
+    if (params) {
+      this.deviceIdHash = this.parameterForKey(
+        StartupParams.DEVICE_ID_HASH_KEY
+      );
+      this.deviceId = this.parameterForKey(StartupParams.DEVICE_ID_KEY);
+      this.uuid = this.parameterForKey(StartupParams.UUID_KEY);
     }
+  }
 
   parameterForKey(key: string): string | undefined {
     return this.params?.[key]?.id;
@@ -88,7 +87,7 @@ export type StartupParamsItem = {
   id?: string;
   errorDetails?: string;
   status: StartupParamsItemStatus;
-}
+};
 
 export type StartupParamsItemStatus =
   | 'OK'
@@ -99,8 +98,8 @@ export type StartupParamsItemStatus =
   | 'UNKNOWN_ERROR';
 
 export enum PredefinedDeviceTypes {
-  PHONE = "phone",
-  TABLET = "tablet",
-  TV = "tv",
-  CAR = "car"
+  PHONE = 'phone',
+  TABLET = 'tablet',
+  TV = 'tv',
+  CAR = 'car',
 }
