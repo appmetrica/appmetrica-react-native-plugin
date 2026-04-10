@@ -32,7 +32,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "clean": "del-cli android/build lib",
-    "prepare": "bob build"
+    "prepack": "bob build"
   },
   "keywords": [
     "appmetrica",
