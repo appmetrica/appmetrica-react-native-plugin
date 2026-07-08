@@ -44,6 +44,7 @@ export interface Spec extends TurboModule {
   getUuid(): string | null;
   getLibraryVersion(): string;
   getLibraryApiLevel(): number;
+  setAdvIdentifiersTracking(enabled: boolean): void;
 
   readonly getConstants: () => {
     DEVICE_ID_HASH_KEY: string;

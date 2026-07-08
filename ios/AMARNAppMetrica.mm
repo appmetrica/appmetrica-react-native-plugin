@@ -216,6 +216,11 @@ RCT_EXPORT_MODULE(AppMetrica)
   // It does nothing for iOS
 }
 
+- (void)setAdvIdentifiersTracking:(BOOL)enabled
+{
+    [AMAAppMetrica setAdvertisingIdentifierTrackingEnabled:enabled];
+}
+
 - (id)constantsToExport {
     return @{
         @"DEVICE_ID_HASH_KEY": kAMADeviceIDHashKey,

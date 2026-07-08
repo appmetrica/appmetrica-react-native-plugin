@@ -217,6 +217,11 @@ public class AppMetricaModule extends NativeAppMetricaSpec {
     }
 
     @Override
+    public void setAdvIdentifiersTracking(boolean enabled) {
+        AppMetrica.setAdvIdentifiersTracking(enabled);
+    }
+
+    @Override
     protected Map<String, Object> getTypedExportedConstants() {
         Map<String, Object> constants = new HashMap<>();
         constants.put("DEVICE_ID_HASH_KEY", StartupParamsCallback.APPMETRICA_DEVICE_ID_HASH);

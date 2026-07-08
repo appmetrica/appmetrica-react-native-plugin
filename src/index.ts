@@ -226,4 +226,8 @@ export default class AppMetrica {
       adaptedOnSuccess
     );
   }
+
+  static setAdvIdentifiersTracking(enabled: boolean) {
+    AppMetricaNative.setAdvIdentifiersTracking(enabled);
+  }
 }
