@@ -4,7 +4,7 @@ import {
   normalizeECommerceProduct,
   normalizeECommerceReferrer,
   normalizeECommerceScreen,
-} from './utils';
+} from '../internal/payloadNormalization';
 
 export type ECommerceScreen = {
   name: string;

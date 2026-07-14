@@ -1,11 +1,11 @@
+import type { AdRevenue } from '../public/adRevenue';
 import type {
   ECommerceCartItem,
   ECommerceOrder,
   ECommerceProduct,
   ECommerceReferrer,
   ECommerceScreen,
-} from './ecommerce';
-import type { AdRevenue } from './revenue';
+} from '../public/ecommerce';
 
 function convertMap(
   map?: Map<string, string>

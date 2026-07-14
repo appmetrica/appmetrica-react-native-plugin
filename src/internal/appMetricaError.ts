@@ -1,5 +1,5 @@
-import { Platform } from 'react-native';
 import React from 'react';
+import { Platform } from 'react-native';
 
 const traceRegex = /^\s*at (.*?) ?\((.*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
 
