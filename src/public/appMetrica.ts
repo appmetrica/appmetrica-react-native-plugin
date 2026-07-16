@@ -14,11 +14,11 @@ import type { ECommerceEvent } from './ecommerce';
 import type { ExternalAttribution } from './externalAttribution';
 import type { IReporter, ReporterConfig } from './reporter';
 import type { Revenue } from './revenue';
-import {
-  StartupParams,
-  type StartupParamsCallback,
-  type StartupParamsItem,
-  type StartupParamsReason,
+import { StartupParams } from './startupParams';
+import type {
+  StartupParamsCallback,
+  StartupParamsItem,
+  StartupParamsReason,
 } from './startupParams';
 import type { UserProfile } from './userProfile';
 

@@ -92,7 +92,22 @@
       "@react-native",
       "prettier"
     ],
-    "rules": {}
+    "rules": {
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          "prefer": "type-imports",
+          "fixStyle": "separate-type-imports"
+        }
+      ],
+      "no-restricted-syntax": [
+        "error",
+        {
+          "selector": "ImportDeclaration[importKind='value'] > ImportSpecifier[importKind='type']",
+          "message": "Use a separate 'import type' declaration instead of inline 'type' specifiers."
+        }
+      ]
+    }
   },
   "eslintIgnore": [
     "node_modules/",
