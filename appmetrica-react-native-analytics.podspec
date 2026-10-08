@@ -11,7 +11,18 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => min_ios_version_supported }
+  # sdk_min_ios is the highest s.ios.deployment_target of the AppMetricaAnalytics
+  # versions the dependency below can resolve. Read it from that version's podspec.
+  # ios/appmetrica-sdk may contain a newer SDK than this dependency range.
+  # The pod links that SDK and imports React, so the deployment target is the
+  # higher of sdk_min_ios and React Native's min_ios_version_supported.
+  # A target below the SDK fails the link. A target below the React module fails the import.
+  sdk_min_ios = '13.0'
+  min_ios = sdk_min_ios
+  if Gem::Version.new(min_ios_version_supported) > Gem::Version.new(min_ios)
+    min_ios = min_ios_version_supported
+  end
+  s.platforms    = { :ios => min_ios }
   s.source       = { :git => "https://github.com/appmetrica/appmetrica-react-native-plugin.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm}"
